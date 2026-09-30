@@ -1,4 +1,4 @@
-# Trip Plan: Organiza tu viaje de orincipio a fin
+# Trip Plan: Organiza tu viaje de principio a fin
 
 Nuestro proeycto corresponde a una aplicación frontend desarrollada con React para la planificación de viajes.
 
@@ -90,7 +90,7 @@ src/
 └── main.jsx
 
 
-Uso de Inteligencia Artificial
+##Uso de Inteligencia Artificial
 
 Durante el desarrollo se utilizarán herramientas de Inteligencia Artificial como apoyo.
 
