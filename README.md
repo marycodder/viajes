@@ -89,8 +89,8 @@ src/
 ├── App.jsx
 └── main.jsx
 
-
-##Uso de Inteligencia Artificial
+``` 
+## Uso de inteligencia artificial 
 
 Durante el desarrollo se utilizarán herramientas de Inteligencia Artificial como apoyo.
 
