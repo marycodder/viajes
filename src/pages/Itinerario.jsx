@@ -5,32 +5,58 @@ import ActivityCard from '../components/ActivityCard';
 import ActivityForm from '../components/ActivityForm';
 
 function Itinerario() {
-  const [actividades, setActividades] = useState(
-    actividadesIniciales);
+  const [actividades, setActividades] = useState(actividadesIniciales);
 
   const agregarActividad = (nuevaActividad) => {
     setActividades([
-        ...actividades, nuevaActividad]);
+      ...actividades,
+      nuevaActividad,
+    ]);
   };
 
-const actividadesOrdenadas = [...actividades].sort((a, b) => {
-  const fechaA = new Date(`${a.fecha}T${a.hora}`);
-  const fechaB = new Date(`${b.fecha}T${b.hora}`);
+  const eliminarActividad = (id) => {
+    const confirmar = window.confirm(
+      '¿Seguro que quieres eliminar esta actividad?'
+    );
 
-  return fechaA - fechaB;
-});
+    if (!confirmar) return;
 
-  const actividadesPorFecha = actividadesOrdenadas.reduce((grupos, actividad) => {
-    const fecha = actividad.fecha;
+    setActividades(
+      actividades.filter((actividad) => actividad.id !== id)
+    );
+  };
 
-    if (!grupos[fecha]) {
-      grupos[fecha] = [];
-    }
+  const actualizarActividad = (actividadActualizada) => {
+    setActividades(
+      actividades.map((actividad) =>
+        actividad.id === actividadActualizada.id
+          ? actividadActualizada
+          : actividad
+      )
+    );
+  };
 
-    grupos[fecha].push(actividad);
+  const actividadesOrdenadas = [...actividades].sort((a, b) => {
+    const fechaA = new Date(`${a.fecha}T${a.hora}`);
+    const fechaB = new Date(`${b.fecha}T${b.hora}`);
 
-    return grupos;
-  }, {});
+    return fechaA - fechaB;
+  });
+
+  const actividadesPorFecha = actividadesOrdenadas.reduce(
+    (grupos, actividad) => {
+      const fecha = actividad.fecha;
+
+      if (!grupos[fecha]) {
+        grupos[fecha] = [];
+      }
+
+      grupos[fecha].push(actividad);
+
+      return grupos;
+    },
+    {}
+  );
 
   return (
     <main className="itinerary-page">
@@ -42,7 +68,9 @@ const actividadesOrdenadas = [...actividades].sort((a, b) => {
         </p>
       </section>
 
-        <ActivityForm agregarActividad={agregarActividad} />
+      <ActivityForm
+        onAgregarActividad={agregarActividad}
+      />
 
       <section className="itinerary-content">
         {Object.entries(actividadesPorFecha).map(
@@ -50,6 +78,7 @@ const actividadesOrdenadas = [...actividades].sort((a, b) => {
             <div className="itinerary-day" key={fecha}>
               <div className="itinerary-date">
                 <h3>{fecha}</h3>
+
                 <span>
                   {actividadesDelDia.length}{' '}
                   {actividadesDelDia.length === 1
@@ -63,6 +92,8 @@ const actividadesOrdenadas = [...actividades].sort((a, b) => {
                   <ActivityCard
                     key={actividad.id}
                     actividad={actividad}
+                    onActualizarActividad={actualizarActividad}
+                    onEliminarActividad={eliminarActividad}
                   />
                 ))}
               </div>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-function ActivityForm({ agregarActividad }) {
+function ActivityForm({ onAgregarActividad }) {
   const [formulario, setFormulario] = useState({
     nombre: '',
     fecha: '',
@@ -43,7 +43,7 @@ function ActivityForm({ agregarActividad }) {
       favorito: false,
     };
 
-    agregarActividad(nuevaActividad);
+    onAgregarActividad(nuevaActividad);
 
     setFormulario({
       nombre: '',

@@ -263,6 +263,37 @@ a {
   text-align: center;
 }
 
+.activity-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.8rem;
+}
+
+.activity-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.edit-button,
+.delete-button {
+  padding: 0.45rem 0.8rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.edit-button {
+  background-color: var(--color-secondary);
+  color: white;
+}
+
+.delete-button {
+  background-color: #FEE2E2;
+  color: #991B1B;
+}
+
 /* ITINERARIO */
 
 .itinerary-page {
@@ -324,7 +355,6 @@ a {
 
 .activity-form {
   max-width: 700px;
-
   margin-bottom: 3rem;
   padding: 2rem;
 
@@ -345,7 +375,6 @@ a {
   flex-direction: column;
 
   gap: 0.5rem;
-
   margin-bottom: 1.25rem;
 }
 
@@ -406,6 +435,40 @@ a {
   border-radius: 8px;
 }
 
+/* EDICIÓN INLINE DE ACTIVIDADES */
+
+.activity-card-editing {
+  display: block;
+}
+
+.inline-edit-form {
+  width: 100%;
+}
+
+.inline-edit-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+
+  gap: 1rem;
+}
+
+.cancel-button {
+  padding: 0.45rem 0.8rem;
+
+  border: none;
+  border-radius: 8px;
+
+  background-color: var(--color-border);
+  color: var(--color-text);
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.cancel-button:hover {
+  background-color: var(--color-sand);
+}
 /* RESPONSIVE */
 
 @media (max-width: 768px) {
@@ -493,11 +556,32 @@ a {
     gap: 0.6rem;
   }
 
-  .form-row {
+  .activity-actions {
+  width: 100%;
+  align-items: flex-start;
+}
+
+.activity-buttons {
+  width: 100%;
+}
+
+.edit-button,
+.delete-button {
+  flex: 1;
+}
+
+.form-row {
   grid-template-columns: 1fr;
 }
 
 .activity-form {
   padding: 1.5rem;
+}
+.inline-edit-row {
+  grid-template-columns: 1fr;
+}
+
+.inline-edit-form {
+  width: 100%;
 }
 }
