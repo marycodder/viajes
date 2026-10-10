@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function Navbar() {
   const [menuAbierto, setMenuAbierto] = useState(false);
@@ -22,8 +23,8 @@ function Navbar() {
       </button>
 
       <div className={`navbar-links ${menuAbierto ? 'active' : ''}`}>
-        <a href="#">Inicio</a>
-        <a href="#">Itinerario</a>
+        <Link to="/">Inicio</Link>
+        <Link to="/itinerario">Itinerario</Link>
         <a href="#">Destinos</a>
         <a href="#">Presupuesto</a>
         <a href="#">Favoritos</a>
