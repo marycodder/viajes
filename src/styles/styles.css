@@ -320,6 +320,92 @@ a {
   font-weight: 600;
 }
 
+/* FORMULARIO DE ACTIVIDADES */
+
+.activity-form {
+  max-width: 700px;
+
+  margin-bottom: 3rem;
+  padding: 2rem;
+
+  background-color: var(--color-surface);
+
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.activity-form h2 {
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+
+  gap: 0.5rem;
+
+  margin-bottom: 1.25rem;
+}
+
+.form-group label {
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+
+  padding: 0.8rem 1rem;
+
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+
+  font: inherit;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: 2px solid var(--color-secondary);
+  border-color: transparent;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  gap: 1rem;
+}
+
+.primary-button {
+  padding: 0.8rem 1.2rem;
+
+  border: none;
+  border-radius: 8px;
+
+  background-color: var(--color-primary);
+  color: white;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.primary-button:hover {
+  background-color: var(--color-secondary);
+}
+
+.form-error {
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+
+  background-color: #FEE2E2;
+  color: #991B1B;
+
+  border-radius: 8px;
+}
+
 /* RESPONSIVE */
 
 @media (max-width: 768px) {
@@ -406,4 +492,12 @@ a {
 
     gap: 0.6rem;
   }
+
+  .form-row {
+  grid-template-columns: 1fr;
+}
+
+.activity-form {
+  padding: 1.5rem;
+}
 }

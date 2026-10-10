@@ -1,8 +1,26 @@
-import { actividades } from '../data/actividades';
+import { useState } from 'react';
+import { actividades as actividadesIniciales } from '../data/actividades';
+
 import ActivityCard from '../components/ActivityCard';
+import ActivityForm from '../components/ActivityForm';
 
 function Itinerario() {
-  const actividadesPorFecha = actividades.reduce((grupos, actividad) => {
+  const [actividades, setActividades] = useState(
+    actividadesIniciales);
+
+  const agregarActividad = (nuevaActividad) => {
+    setActividades([
+        ...actividades, nuevaActividad]);
+  };
+
+const actividadesOrdenadas = [...actividades].sort((a, b) => {
+  const fechaA = new Date(`${a.fecha}T${a.hora}`);
+  const fechaB = new Date(`${b.fecha}T${b.hora}`);
+
+  return fechaA - fechaB;
+});
+
+  const actividadesPorFecha = actividadesOrdenadas.reduce((grupos, actividad) => {
     const fecha = actividad.fecha;
 
     if (!grupos[fecha]) {
@@ -23,6 +41,8 @@ function Itinerario() {
           Revisa todas las actividades organizadas para tu viaje.
         </p>
       </section>
+
+        <ActivityForm agregarActividad={agregarActividad} />
 
       <section className="itinerary-content">
         {Object.entries(actividadesPorFecha).map(
