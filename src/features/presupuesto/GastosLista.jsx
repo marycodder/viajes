@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { CATEGORIAS, formatearMonto } from './presupuestoUtils'
 
 const nombreCat = (id) => CATEGORIAS.find((c) => c.id === id)?.nombre ?? id
+const colorCat = (id) => CATEGORIAS.find((c) => c.id === id)?.color ?? '#8C7B5B'
 const ETIQUETA_ORIGEN = { simulado: 'Estimado', manual: 'Manual', actividad: 'Itinerario' }
 
 export default function GastosLista({ items, moneda, dias, onAgregar, onEliminar, onEditar }) {
@@ -24,12 +25,12 @@ export default function GastosLista({ items, moneda, dias, onAgregar, onEliminar
   }
 
   return (
-    <section>
-      <h2>Gastos</h2>
+    <section className="pres-card" aria-labelledby="pres-gastos">
+      <h3 id="pres-gastos">Gastos</h3>
 
-      <form onSubmit={enviar}>
-        <label>
-          Categoría{' '}
+      <form className="pres-form" onSubmit={enviar}>
+        <label className="pres-field">
+          <span>Categoría</span>
           <select value={form.categoria} onChange={set('categoria')}>
             {CATEGORIAS.map((c) => (
               <option key={c.id} value={c.id}>
@@ -39,18 +40,18 @@ export default function GastosLista({ items, moneda, dias, onAgregar, onEliminar
           </select>
         </label>
 
-        <label>
-          Concepto{' '}
+        <label className="pres-field">
+          <span>Concepto</span>
           <input value={form.concepto} onChange={set('concepto')} placeholder="Ej. Cena en el centro" required />
         </label>
 
-        <label>
-          Monto ({moneda}){' '}
+        <label className="pres-field">
+          <span>Monto ({moneda})</span>
           <input type="number" min="0" step="any" value={form.monto} onChange={set('monto')} required />
         </label>
 
-        <label>
-          Día (opcional){' '}
+        <label className="pres-field">
+          <span>Día (opcional)</span>
           <select value={form.dia} onChange={set('dia')}>
             <option value="">—</option>
             {Array.from({ length: dias }, (_, i) => (
@@ -61,25 +62,30 @@ export default function GastosLista({ items, moneda, dias, onAgregar, onEliminar
           </select>
         </label>
 
-        <button type="submit">Agregar</button>
+        <button type="submit" className="pres-btn">
+          Agregar
+        </button>
       </form>
 
       {items.length === 0 ? (
-        <p>Sin gastos todavía.</p>
+        <p className="pres-vacio">Sin gastos todavía.</p>
       ) : (
-        <ul>
+        <ul className="pres-lista">
           {items.map((it) => {
             const editable = it.origen !== 'actividad'
             return (
               <li key={it.id}>
-                <strong>{it.concepto}</strong>
-                <small>
-                  {' '}
-                  · {nombreCat(it.categoria)} · {ETIQUETA_ORIGEN[it.origen]}
-                  {it.dia != null && ` · Día ${it.dia}`}
-                </small>{' '}
+                <i className="pres-punto" style={{ background: colorCat(it.categoria) }} title={nombreCat(it.categoria)} />
+                <div className="pres-concepto">
+                  <strong>{it.concepto}</strong>
+                  <small>
+                    {nombreCat(it.categoria)} · {ETIQUETA_ORIGEN[it.origen]}
+                    {it.dia != null && ` · Día ${it.dia}`}
+                  </small>
+                </div>
                 {editable ? (
                   <input
+                    className="pres-monto"
                     type="number"
                     min="0"
                     step="any"
@@ -88,12 +94,19 @@ export default function GastosLista({ items, moneda, dias, onAgregar, onEliminar
                     onChange={(e) => onEditar(it.id, Math.max(0, Number(e.target.value) || 0))}
                   />
                 ) : (
-                  <b>{formatearMonto(it.monto, moneda)}</b>
-                )}{' '}
-                {editable && (
-                  <button type="button" aria-label={`Eliminar ${it.concepto}`} onClick={() => onEliminar(it.id)}>
+                  <b className="pres-monto">{formatearMonto(it.monto, moneda)}</b>
+                )}
+                {editable ? (
+                  <button
+                    type="button"
+                    className="pres-x"
+                    aria-label={`Eliminar ${it.concepto}`}
+                    onClick={() => onEliminar(it.id)}
+                  >
                     ×
                   </button>
+                ) : (
+                  <span className="pres-x" />
                 )}
               </li>
             )
@@ -103,3 +116,4 @@ export default function GastosLista({ items, moneda, dias, onAgregar, onEliminar
     </section>
   )
 }
+

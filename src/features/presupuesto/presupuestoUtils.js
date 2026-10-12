@@ -2,12 +2,12 @@
 // Convención: todos los montos de los ítems están en la moneda del viaje.
 
 export const CATEGORIAS = [
-  { id: 'vuelos', nombre: 'Vuelos / traslado largo', color: '#6366f1' },
-  { id: 'alojamiento', nombre: 'Alojamiento', color: '#0ea5e9' },
-  { id: 'transporte', nombre: 'Transporte local', color: '#14b8a6' },
-  { id: 'comida', nombre: 'Comida', color: '#f59e0b' },
-  { id: 'actividades', nombre: 'Actividades', color: '#ec4899' },
-  { id: 'otros', nombre: 'Otros / imprevistos', color: '#94a3b8' },
+  { id: 'vuelos', nombre: 'Vuelos / traslado largo', color: '#2a6fd1' },
+  { id: 'alojamiento', nombre: 'Alojamiento', color: '#50b4f2' },
+  { id: 'transporte', nombre: 'Transporte local', color: '#59c1d9' },
+  { id: 'comida', nombre: 'Comida', color: '#5abfb5' },
+  { id: 'actividades', nombre: 'Actividades', color: '#d9c8a9' },
+  { id: 'otros', nombre: 'Otros / imprevistos', color: '#8c7b5b' },
 ]
 
 export const MONEDAS = ['USD', 'EUR', 'CLP', 'ARS', 'MXN', 'COP', 'PEN', 'BRL', 'GBP', 'JPY']

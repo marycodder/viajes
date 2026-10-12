@@ -1,6 +1,8 @@
+import './Presupuesto.css'
 import GastosLista from './GastosLista'
+import ResumenPresupuesto from './ResumenPresupuesto'
 import Simulador from './Simulador'
-import { MONEDAS, calcularResumen, convertir, formatearMonto, generarSimulacion } from './presupuestoUtils'
+import { MONEDAS, calcularResumen, convertir, generarSimulacion } from './presupuestoUtils'
 import { usePresupuesto } from './usePresupuesto'
 import { useTasasCambio } from './useTasasCambio'
 
@@ -27,7 +29,6 @@ export default function Presupuesto({ destino, dias: diasProp }) {
   })
 
   const cambiar = (campo, valor) => dispatch({ type: 'CAMPO', campo, valor })
-  const m = (n) => formatearMonto(n, moneda)
 
   const generar = () =>
     dispatch({
@@ -47,65 +48,69 @@ export default function Presupuesto({ destino, dias: diasProp }) {
     })
 
   return (
-    <div>
-      <h1>Presupuesto del viaje{destino?.pais ? ` · ${destino.pais}` : ''}</h1>
+    <main className="presupuesto">
+      <header className="pres-header">
+        <p className="pres-label">Planificación</p>
+        <h2>Presupuesto del viaje{destino?.pais ? ` · ${destino.pais}` : ''}</h2>
+        <p className="pres-tasas">
+          Tasas de cambio:{' '}
+          {cargando
+            ? 'actualizando…'
+            : fuente === 'respaldo'
+              ? 'aproximadas (sin conexión a la API)'
+              : `API${fecha ? ` · ${fecha.slice(0, 16)}` : ''}`}
+        </p>
+      </header>
 
-      <p>
-        Tasas de cambio:{' '}
-        {cargando
-          ? 'actualizando…'
-          : fuente === 'respaldo'
-            ? 'aproximadas (sin conexión a la API)'
-            : `API${fecha ? ` · ${fecha.slice(0, 16)}` : ''}`}
-      </p>
+      <section className="pres-card" aria-labelledby="pres-datos">
+        <h3 id="pres-datos">Datos del viaje</h3>
 
-      <section>
-        <h2>Datos del viaje</h2>
+        <div className="pres-grid">
+          <label className="pres-field">
+            <span>Moneda</span>
+            <select value={moneda} onChange={(e) => cambiarMoneda(e.target.value)}>
+              {MONEDAS.map((mo) => (
+                <option key={mo}>{mo}</option>
+              ))}
+            </select>
+          </label>
 
-        <label>
-          Moneda{' '}
-          <select value={moneda} onChange={(e) => cambiarMoneda(e.target.value)}>
-            {MONEDAS.map((mo) => (
-              <option key={mo}>{mo}</option>
-            ))}
-          </select>
-        </label>
+          <label className="pres-field">
+            <span>Presupuesto total ({moneda})</span>
+            <input
+              type="number"
+              min="0"
+              value={estado.presupuestoTotal || ''}
+              onChange={(e) => cambiar('presupuestoTotal', Math.max(0, Number(e.target.value) || 0))}
+            />
+          </label>
 
-        <label>
-          Presupuesto total ({moneda}){' '}
-          <input
-            type="number"
-            min="0"
-            value={estado.presupuestoTotal || ''}
-            onChange={(e) => cambiar('presupuestoTotal', Math.max(0, Number(e.target.value) || 0))}
-          />
-        </label>
+          <label className="pres-field">
+            <span>Viajeros</span>
+            <input
+              type="number"
+              min="1"
+              max="20"
+              value={estado.viajeros}
+              onChange={(e) => cambiar('viajeros', Math.max(1, Number(e.target.value) || 1))}
+            />
+          </label>
 
-        <label>
-          Viajeros{' '}
-          <input
-            type="number"
-            min="1"
-            max="20"
-            value={estado.viajeros}
-            onChange={(e) => cambiar('viajeros', Math.max(1, Number(e.target.value) || 1))}
-          />
-        </label>
-
-        <label>
-          Días{' '}
-          <input
-            type="number"
-            min="1"
-            max="90"
-            value={dias}
-            disabled={diasProp != null}
-            onChange={(e) => cambiar('dias', Math.max(1, Number(e.target.value) || 1))}
-          />
-        </label>
+          <label className="pres-field">
+            <span>Días</span>
+            <input
+              type="number"
+              min="1"
+              max="90"
+              value={dias}
+              disabled={diasProp != null}
+              onChange={(e) => cambiar('dias', Math.max(1, Number(e.target.value) || 1))}
+            />
+          </label>
+        </div>
 
         {MONEDAS.includes(destino?.moneda) && destino.moneda !== moneda && (
-          <button type="button" onClick={() => cambiarMoneda(destino.moneda)}>
+          <button type="button" className="pres-link" onClick={() => cambiarMoneda(destino.moneda)}>
             Usar la moneda del destino ({destino.moneda})
           </button>
         )}
@@ -117,16 +122,7 @@ export default function Presupuesto({ destino, dias: diasProp }) {
         onGenerar={generar}
       />
 
-      <section>
-        <h2>Resumen</h2>
-        <ul>
-          <li>Presupuesto: {m(resumen.meta)}</li>
-          <li>Gastado: {m(resumen.gastado)}</li>
-          <li>Restante: {m(resumen.restante)}</li>
-          <li>Por persona: {m(resumen.porPersona)}</li>
-          <li>Por día: {m(resumen.porDia)}</li>
-        </ul>
-      </section>
+      <ResumenPresupuesto resumen={resumen} items={estado.items} moneda={moneda} />
 
       <GastosLista
         items={estado.items}
@@ -136,7 +132,7 @@ export default function Presupuesto({ destino, dias: diasProp }) {
         onEliminar={(id) => dispatch({ type: 'ELIMINAR', id })}
         onEditar={(id, monto) => dispatch({ type: 'EDITAR_MONTO', id, monto })}
       />
-    </div>
+    </main>
   )
 }
 
