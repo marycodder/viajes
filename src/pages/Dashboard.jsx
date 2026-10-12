@@ -1,8 +1,17 @@
+import { useEffect, useState } from 'react';
+
 import StatCard from '../components/StatCard';
+import WeatherCard from '../components/WeatherCard';
+
 import { viajes } from '../data/viajes';
+import { obtenerClima } from '../services/weatherApi';
 
 function Dashboard({ actividades }) {
   const viaje = viajes[0];
+
+  const [clima, setClima] = useState([]);
+  const [cargandoClima, setCargandoClima] = useState(true);
+  const [errorClima, setErrorClima] = useState('');
 
   const formatoMoneda = (valor) =>
     new Intl.NumberFormat('es-CL', {
@@ -27,6 +36,48 @@ function Dashboard({ actividades }) {
   });
 
   const proximasActividades = actividadesOrdenadas.slice(0, 3);
+
+  useEffect(() => {
+    const cargarClima = async () => {
+      try {
+        setCargandoClima(true);
+        setErrorClima('');
+
+        const datos = await obtenerClima(
+          viaje.latitud,
+          viaje.longitud,
+          viaje.fechaInicio,
+          viaje.fechaFin
+        );
+
+        const pronostico = datos.daily.time.map((fecha, indice) => ({
+          fecha,
+          codigo: datos.daily.weather_code[indice],
+          maxima: datos.daily.temperature_2m_max[indice],
+          minima: datos.daily.temperature_2m_min[indice],
+          lluvia:
+            datos.daily.precipitation_probability_max[indice] ?? 0,
+        }));
+
+        setClima(pronostico);
+      } catch (error) {
+        console.error('Error al cargar el clima:', error);
+
+        setErrorClima(
+          'No fue posible cargar el pronóstico del tiempo.'
+        );
+      } finally {
+        setCargandoClima(false);
+      }
+    };
+
+    cargarClima();
+  }, [
+    viaje.latitud,
+    viaje.longitud,
+    viaje.fechaInicio,
+    viaje.fechaFin,
+  ]);
 
   return (
     <main className="dashboard">
@@ -72,7 +123,6 @@ function Dashboard({ actividades }) {
         <div className="section-header">
           <div>
             <p className="section-label">Planificación</p>
-
             <h2>Próximas actividades</h2>
           </div>
 
@@ -129,6 +179,38 @@ function Dashboard({ actividades }) {
                   )}
                 </div>
               </article>
+            ))}
+          </div>
+        )}
+      </section>
+
+      <section className="dashboard-section weather-section">
+        <div className="section-header">
+          <div>
+            <p className="section-label">Pronóstico</p>
+            <h2>Clima en {viaje.destino}</h2>
+          </div>
+        </div>
+
+        {cargandoClima && (
+          <div className="weather-message">
+            <p>Cargando pronóstico...</p>
+          </div>
+        )}
+
+        {errorClima && (
+          <div className="weather-error">
+            <p>{errorClima}</p>
+          </div>
+        )}
+
+        {!cargandoClima && !errorClima && clima.length > 0 && (
+          <div className="weather-grid">
+            {clima.map((dia) => (
+              <WeatherCard
+                key={dia.fecha}
+                dia={dia}
+              />
             ))}
           </div>
         )}
