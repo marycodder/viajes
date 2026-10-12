@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 
 import Dashboard from './pages/Dashboard';
 import Itinerario from './pages/Itinerario';
+import Presupuesto from './features/presupuesto/Presupuesto';
 import Favoritos from './pages/Favoritos';
 import Destinos from './pages/Destinos';
 
@@ -77,6 +78,11 @@ function App() {
         />
 
         <Route
+          path="/presupuesto"
+          element={<Presupuesto />}
+        />
+
+        <Route
           path="/favoritos"
           element={
             <Favoritos
@@ -91,3 +97,4 @@ function App() {
 }
 
 export default App;
+

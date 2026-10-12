@@ -26,7 +26,7 @@ function Navbar() {
         <Link to="/">Inicio</Link>
         <Link to="/itinerario">Itinerario</Link>
         <Link to="/destinos">Destinos</Link>
-        <a href="#">Presupuesto</a>
+        <Link to="/presupuesto">Presupuesto</Link>
         <Link to="/favoritos">Favoritos</Link>
       </div>
     </nav>
@@ -34,3 +34,4 @@ function Navbar() {
 }
 
 export default Navbar;
+
