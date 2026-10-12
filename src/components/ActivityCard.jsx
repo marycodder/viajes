@@ -4,6 +4,7 @@ function ActivityCard({
   actividad,
   onActualizarActividad,
   onEliminarActividad,
+  onAlternarFavorito,
 }) {
   const [editando, setEditando] = useState(false);
 
@@ -125,17 +126,11 @@ function ActivityCard({
           </div>
 
           <div className="activity-buttons">
-            <button
-              className="edit-button"
-              onClick={guardarCambios}
-            >
+            <button className="edit-button" onClick={guardarCambios}>
               Guardar
             </button>
 
-            <button
-              className="cancel-button"
-              onClick={cancelarEdicion}
-            >
+            <button className="cancel-button" onClick={cancelarEdicion}>
               Cancelar
             </button>
           </div>
@@ -161,9 +156,25 @@ function ActivityCard({
       </div>
 
       <div className="activity-actions">
-        <span className="activity-category">
-          {actividad.categoria}
-        </span>
+        <div className="activity-top-actions">
+          <span className="activity-category">
+            {actividad.categoria}
+          </span>
+
+          <button
+            className={`favorite-button ${
+              actividad.favorito ? 'active' : ''
+            }`}
+            onClick={() => onAlternarFavorito(actividad.id)}
+            aria-label={
+              actividad.favorito
+                ? 'Quitar de favoritos'
+                : 'Agregar a favoritos'
+            }
+          >
+            {actividad.favorito ? '♥' : '♡'}
+          </button>
+        </div>
 
         <div className="activity-buttons">
           <button
