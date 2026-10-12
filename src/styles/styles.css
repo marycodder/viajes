@@ -874,6 +874,122 @@ a {
   color: var(--color-primary);
   font-size: 1.15rem;
 }
+
+/* Filtros del itinerario */
+
+.itinerary-filters {
+  margin-bottom: 3rem;
+  padding: 1.5rem;
+
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.filters-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+
+  margin-bottom: 1.5rem;
+}
+
+.filters-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr auto;
+  gap: 1rem;
+  align-items: end;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filter-group label {
+  font-weight: 600;
+}
+
+.filter-group input,
+.filter-group select {
+  width: 100%;
+  padding: 0.8rem 1rem;
+
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+
+  font: inherit;
+}
+
+.filter-group input:focus,
+.filter-group select:focus {
+  outline: 2px solid var(--color-secondary);
+  border-color: transparent;
+}
+
+.favorite-filter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  min-height: 44px;
+
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.favorite-filter input {
+  width: 18px;
+  height: 18px;
+}
+
+.clear-filters-button {
+  padding: 0.65rem 1rem;
+
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+
+  background-color: var(--color-background);
+  color: var(--color-text);
+
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.clear-filters-button:hover {
+  background-color: var(--color-sand);
+}
+
+.itinerary-results {
+  margin-bottom: 1rem;
+
+  color: var(--color-text-secondary);
+  font-weight: 600;
+}
+
+.itinerary-empty {
+  padding: 3rem 2rem;
+
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+
+  text-align: center;
+}
+
+.itinerary-empty h3 {
+  margin-bottom: 0.5rem;
+}
+
+.itinerary-empty p {
+  margin-bottom: 1.5rem;
+
+  color: var(--color-text-secondary);
+}
 /* RESPONSIVE */
 
 @media (max-width: 768px) {
@@ -1019,10 +1135,81 @@ a {
 .trip-summary-grid {
   grid-template-columns: repeat(2, 1fr);
 }
+/* Texto negro en Navbar y Dashboard */
+
+/* Navbar */
+.navbar {
+  color: #000000;
+}
+
+.navbar-brand h1 {
+  color: #000000;
+}
+
+.navbar-links a {
+  color: #000000;
+}
+
+.menu-toggle {
+  color: #000000;
+}
+
+/* Dashboard */
+.dashboard,
+.dashboard h1,
+.dashboard h2,
+.dashboard h3,
+.dashboard p,
+.dashboard span {
+  color: #000000;
+}
+
+/* Montos de las tarjetas */
+.stat-card,
+.stat-card h3,
+.stat-card p,
+.stat-card span,
+.stat-value {
+  color: #000000;
+}
+
+/* Costos de actividades */
+.activity-cost {
+  color: #000000;
+}
+
+/* Montos del resumen del viaje */
+.summary-item strong {
+  color: #000000;
+}
+
+/* Etiquetas del resumen */
+.summary-item span {
+  color: #000000;
+}
+
+
 
 @media (max-width: 480px) {
   .trip-summary-grid {
     grid-template-columns: 1fr;
   }
 }
+
+.filters-header {
+  flex-direction: column;
+  align-items: flex-start;
 }
+
+.filters-grid {
+  grid-template-columns: 1fr;
+}
+
+.clear-filters-button {
+  width: 100%;
+}
+
+.favorite-filter {
+  width: 100%;
+}
+} 
