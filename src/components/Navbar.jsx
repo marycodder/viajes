@@ -25,7 +25,7 @@ function Navbar() {
       <div className={`navbar-links ${menuAbierto ? 'active' : ''}`}>
         <Link to="/">Inicio</Link>
         <Link to="/itinerario">Itinerario</Link>
-        <a href="#">Destinos</a>
+        <Link to="/destinos">Destinos</Link>
         <a href="#">Presupuesto</a>
         <Link to="/favoritos">Favoritos</Link>
       </div>

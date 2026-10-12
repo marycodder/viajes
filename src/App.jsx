@@ -6,6 +6,7 @@ import Navbar from './components/Navbar';
 import Dashboard from './pages/Dashboard';
 import Itinerario from './pages/Itinerario';
 import Favoritos from './pages/Favoritos';
+import Destinos from './pages/Destinos';
 
 import { actividades as actividadesIniciales } from './data/actividades';
 
@@ -68,6 +69,11 @@ function App() {
               onAlternarFavorito={alternarFavorito}
             />
           }
+        />
+
+        <Route
+          path="/destinos"
+          element={<Destinos />}
         />
 
         <Route
