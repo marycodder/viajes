@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
@@ -10,7 +10,31 @@ import Favoritos from './pages/Favoritos';
 import { actividades as actividadesIniciales } from './data/actividades';
 
 function App() {
-  const [actividades, setActividades] = useState(actividadesIniciales);
+  const [actividades, setActividades] = useState(() => {
+    const actividadesGuardadas = localStorage.getItem(
+      'tripplan_actividades'
+    );
+
+    if (actividadesGuardadas) {
+      try {
+        return JSON.parse(actividadesGuardadas);
+      } catch (error) {
+        console.error(
+          'Error al cargar las actividades guardadas:',
+          error
+        );
+      }
+    }
+
+    return actividadesIniciales;
+  });
+
+  useEffect(() => {
+    localStorage.setItem(
+      'tripplan_actividades',
+      JSON.stringify(actividades)
+    );
+  }, [actividades]);
 
   const alternarFavorito = (id) => {
     setActividades((actividadesActuales) =>
