@@ -5,6 +5,7 @@ import WeatherCard from '../components/WeatherCard';
 
 import { viajes } from '../data/viajes';
 import { obtenerClima } from '../services/weatherApi';
+import TripSummary from '../components/TripSummary';
 
 function Dashboard({ actividades }) {
   const viaje = viajes[0];
@@ -118,6 +119,13 @@ function Dashboard({ actividades }) {
           valor={formatoMoneda(presupuestoDisponible)}
         />
       </section>
+
+      <TripSummary
+          viaje={viaje}
+          actividades={actividades}
+          totalGastado={totalGastado}
+          presupuestoDisponible={presupuestoDisponible}
+        />
 
       <section className="dashboard-section">
         <div className="section-header">
