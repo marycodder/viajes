@@ -1,15 +1,14 @@
-import { useState } from 'react';
-import { actividades as actividadesIniciales } from '../data/actividades';
-
 import ActivityCard from '../components/ActivityCard';
 import ActivityForm from '../components/ActivityForm';
 
-function Itinerario() {
-  const [actividades, setActividades] = useState(actividadesIniciales);
-
+function Itinerario({
+  actividades,
+  setActividades,
+  onAlternarFavorito,
+}) {
   const agregarActividad = (nuevaActividad) => {
-    setActividades([
-      ...actividades,
+    setActividades((actividadesActuales) => [
+      ...actividadesActuales,
       nuevaActividad,
     ]);
   };
@@ -19,16 +18,18 @@ function Itinerario() {
       '¿Seguro que quieres eliminar esta actividad?'
     );
 
-    if (!confirmar) return;
+    if (!confirmar) {
+      return;
+    }
 
-    setActividades(
-      actividades.filter((actividad) => actividad.id !== id)
+    setActividades((actividadesActuales) =>
+      actividadesActuales.filter((actividad) => actividad.id !== id)
     );
   };
 
   const actualizarActividad = (actividadActualizada) => {
-    setActividades(
-      actividades.map((actividad) =>
+    setActividades((actividadesActuales) =>
+      actividadesActuales.map((actividad) =>
         actividad.id === actividadActualizada.id
           ? actividadActualizada
           : actividad
@@ -62,15 +63,13 @@ function Itinerario() {
     <main className="itinerary-page">
       <section className="itinerary-header">
         <p className="section-label">Tu planificación</p>
+
         <h2>Itinerario</h2>
-        <p>
-          Revisa todas las actividades organizadas para tu viaje.
-        </p>
+
+        <p>Revisa todas las actividades organizadas para tu viaje.</p>
       </section>
 
-      <ActivityForm
-        onAgregarActividad={agregarActividad}
-      />
+      <ActivityForm onAgregarActividad={agregarActividad} />
 
       <section className="itinerary-content">
         {Object.entries(actividadesPorFecha).map(
@@ -94,6 +93,7 @@ function Itinerario() {
                     actividad={actividad}
                     onActualizarActividad={actualizarActividad}
                     onEliminarActividad={eliminarActividad}
+                    onAlternarFavorito={onAlternarFavorito}
                   />
                 ))}
               </div>
