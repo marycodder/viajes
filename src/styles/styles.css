@@ -135,6 +135,45 @@ a {
   text-transform: uppercase;
 }
 
+/* Ajustes de espaciado del Dashboard */
+
+.dashboard {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+.dashboard-header {
+  margin-bottom: 2rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.dashboard-section {
+  margin-top: 1rem;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.section-header .section-label {
+  margin-bottom: 0.35rem;
+}
+
+.section-header h2 {
+  margin: 0;
+}
 /* TARJETAS DE RESUMEN */
 
 .stats-container {

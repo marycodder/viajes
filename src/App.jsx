@@ -54,7 +54,10 @@ function App() {
       <Navbar />
 
       <Routes>
-        <Route path="/" element={<Dashboard />} />
+        <Route
+          path="/"
+          element={<Dashboard actividades={actividades} />}
+        />
 
         <Route
           path="/itinerario"
