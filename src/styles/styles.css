@@ -469,6 +469,130 @@ a {
 .cancel-button:hover {
   background-color: var(--color-sand);
 }
+
+.activity-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.favorite-button {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  background-color: var(--color-surface);
+  color: var(--color-primary);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.favorite-button:hover {
+  transform: scale(1.08);
+  background-color: var(--color-background);
+}
+
+.favorite-button.active {
+  background-color: var(--color-sand);
+  color: var(--color-primary);
+}
+
+/* Favoritos */
+
+.favorites-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+.favorites-header {
+  margin-bottom: 2rem;
+}
+
+.favorites-header h2 {
+  margin-bottom: 0.5rem;
+  font-size: 2rem;
+}
+
+.favorites-header p {
+  color: var(--color-text-secondary);
+}
+
+.favorites-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.favorite-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+
+  padding: 1.5rem;
+
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.favorite-card-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.favorite-card-info h3 {
+  margin-top: 0.25rem;
+}
+
+.remove-favorite-button {
+  padding: 0.7rem 1rem;
+
+  border: none;
+  border-radius: 8px;
+
+  background-color: var(--color-sand);
+  color: var(--color-text);
+
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.remove-favorite-button:hover {
+  opacity: 0.85;
+}
+
+.favorites-empty {
+  padding: 4rem 2rem;
+
+  text-align: center;
+
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+}
+
+.favorites-empty-icon {
+  display: block;
+
+  margin-bottom: 1rem;
+
+  color: var(--color-primary);
+  font-size: 3rem;
+}
+
+.favorites-empty h3 {
+  margin-bottom: 0.5rem;
+}
+
+.favorites-empty p {
+  color: var(--color-text-secondary);
+}
 /* RESPONSIVE */
 
 @media (max-width: 768px) {
@@ -582,6 +706,19 @@ a {
 }
 
 .inline-edit-form {
+  width: 100%;
+}
+
+.favorites-page {
+  padding: 2rem 1rem;
+}
+
+.favorite-card {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.remove-favorite-button {
   width: 100%;
 }
 }

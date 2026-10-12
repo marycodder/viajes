@@ -27,7 +27,7 @@ function Navbar() {
         <Link to="/itinerario">Itinerario</Link>
         <a href="#">Destinos</a>
         <a href="#">Presupuesto</a>
-        <a href="#">Favoritos</a>
+        <Link to="/favoritos">Favoritos</Link>
       </div>
     </nav>
   );
