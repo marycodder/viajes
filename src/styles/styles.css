@@ -1,0 +1,1215 @@
+/* Paleta visual oficial de TripPlan */
+
+:root {
+  --color-primary: #418EF2;
+  --color-secondary: #50B4F2;
+  --color-accent: #59C1D9;
+  --color-success: #5ABFB5;
+  --color-sand: #D9C8A9;
+
+  --color-background: #F8FAFC;
+  --color-surface: #FFFFFF;
+  --color-text: #0F172A;
+  --color-text-secondary: #475569;
+  --color-border: #E2E8F0;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+
+  font-family: Arial, sans-serif;
+
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+a {
+  text-decoration: none;
+}
+
+/* NAVBAR */
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 1rem 2rem;
+
+  background-color: var(--color-primary);
+  color: var(--color-surface);
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.navbar-brand h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.navbar-links a {
+  color: var(--color-surface);
+  font-weight: 500;
+
+  transition: opacity 0.2s ease;
+}
+
+.navbar-links a:hover {
+  opacity: 0.8;
+}
+
+.menu-toggle {
+  display: none;
+
+  border: none;
+  background: transparent;
+
+  color: white;
+
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+/* DASHBOARD */
+
+.dashboard {
+  min-height: calc(100vh - 72px);
+  padding: 3rem 2rem;
+}
+
+.dashboard-header {
+  max-width: 1100px;
+
+  margin: 0 auto;
+  padding: 3rem;
+
+  border-radius: 18px;
+
+  background: linear-gradient(
+    135deg,
+    var(--color-secondary),
+    var(--color-accent)
+  );
+
+  color: var(--color-surface);
+}
+
+.dashboard-header h2 {
+  margin-bottom: 0.75rem;
+  font-size: 2.3rem;
+}
+
+.dashboard-header p {
+  max-width: 650px;
+
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.dashboard-label {
+  margin-bottom: 0.4rem;
+
+  font-size: 0.9rem;
+  font-weight: 600;
+
+  text-transform: uppercase;
+}
+
+/* Ajustes de espaciado del Dashboard */
+
+.dashboard {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+.dashboard-header {
+  margin-bottom: 2rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.dashboard-section {
+  margin-top: 1rem;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.section-header .section-label {
+  margin-bottom: 0.35rem;
+}
+
+.section-header h2 {
+  margin: 0;
+}
+/* TARJETAS DE RESUMEN */
+
+.stats-container {
+  max-width: 1100px;
+
+  margin: 2rem auto;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.stat-card {
+  padding: 1.5rem;
+
+  background-color: var(--color-surface);
+
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.stat-card p {
+  margin-bottom: 0.5rem;
+  color: var(--color-text-secondary);
+}
+
+.stat-card h3 {
+  font-size: 1.6rem;
+  color: var(--color-primary);
+}
+
+/* ACTIVIDADES */
+
+.activities-section {
+  max-width: 1100px;
+  margin: 3rem auto 0;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 1.5rem;
+}
+
+.section-label {
+  margin-bottom: 0.3rem;
+
+  color: var(--color-primary);
+
+  font-size: 0.85rem;
+  font-weight: 600;
+
+  text-transform: uppercase;
+}
+
+.activities-count {
+  padding: 0.4rem 0.8rem;
+
+  background-color: var(--color-sand);
+
+  border-radius: 20px;
+
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.activities-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.activity-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 1.25rem 1.5rem;
+
+  background-color: var(--color-surface);
+
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+}
+
+.activity-card h3 {
+  margin-bottom: 0.4rem;
+}
+
+.activity-card p {
+  color: var(--color-text-secondary);
+}
+
+.activity-card span {
+  padding: 0.4rem 0.8rem;
+
+  background-color: var(--color-accent);
+  color: white;
+
+  border-radius: 20px;
+
+  font-size: 0.85rem;
+}
+
+.activity-cost {
+  margin-top: 0.35rem;
+
+  color: var(--color-primary);
+
+  font-weight: 600;
+}
+
+.empty-message {
+  padding: 2rem;
+
+  background-color: var(--color-surface);
+
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+
+  color: var(--color-text-secondary);
+
+  text-align: center;
+}
+
+.activity-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.8rem;
+}
+
+.activity-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.edit-button,
+.delete-button {
+  padding: 0.45rem 0.8rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.edit-button {
+  background-color: var(--color-secondary);
+  color: white;
+}
+
+.delete-button {
+  background-color: #FEE2E2;
+  color: #991B1B;
+}
+
+/* ITINERARIO */
+
+.itinerary-page {
+  max-width: 1100px;
+  margin: 0 auto;
+
+  padding: 3rem 2rem;
+}
+
+.itinerary-header {
+  margin-bottom: 2.5rem;
+}
+
+.itinerary-header h2 {
+  margin-bottom: 0.5rem;
+  font-size: 2.2rem;
+}
+
+.itinerary-header > p:last-child {
+  color: var(--color-text-secondary);
+}
+
+.itinerary-content {
+  display: grid;
+  gap: 2.5rem;
+}
+
+.itinerary-day {
+  display: grid;
+  gap: 1rem;
+}
+
+.itinerary-date {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding-bottom: 0.8rem;
+
+  border-bottom: 2px solid var(--color-accent);
+}
+
+.itinerary-date h3 {
+  font-size: 1.15rem;
+}
+
+.itinerary-date span {
+  padding: 0.35rem 0.75rem;
+
+  background-color: var(--color-sand);
+
+  border-radius: 20px;
+
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* FORMULARIO DE ACTIVIDADES */
+
+.activity-form {
+  max-width: 700px;
+  margin-bottom: 3rem;
+  padding: 2rem;
+
+  background-color: var(--color-surface);
+
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.activity-form h2 {
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.form-group label {
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+
+  padding: 0.8rem 1rem;
+
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+
+  font: inherit;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: 2px solid var(--color-secondary);
+  border-color: transparent;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  gap: 1rem;
+}
+
+.primary-button {
+  padding: 0.8rem 1.2rem;
+
+  border: none;
+  border-radius: 8px;
+
+  background-color: var(--color-primary);
+  color: white;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.primary-button:hover {
+  background-color: var(--color-secondary);
+}
+
+.form-error {
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+
+  background-color: #FEE2E2;
+  color: #991B1B;
+
+  border-radius: 8px;
+}
+
+/* EDICIÓN INLINE DE ACTIVIDADES */
+
+.activity-card-editing {
+  display: block;
+}
+
+.inline-edit-form {
+  width: 100%;
+}
+
+.inline-edit-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+
+  gap: 1rem;
+}
+
+.cancel-button {
+  padding: 0.45rem 0.8rem;
+
+  border: none;
+  border-radius: 8px;
+
+  background-color: var(--color-border);
+  color: var(--color-text);
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.cancel-button:hover {
+  background-color: var(--color-sand);
+}
+
+.activity-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.favorite-button {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  background-color: var(--color-surface);
+  color: var(--color-primary);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.favorite-button:hover {
+  transform: scale(1.08);
+  background-color: var(--color-background);
+}
+
+.favorite-button.active {
+  background-color: var(--color-sand);
+  color: var(--color-primary);
+}
+
+/* Favoritos */
+
+.favorites-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+.favorites-header {
+  margin-bottom: 2rem;
+}
+
+.favorites-header h2 {
+  margin-bottom: 0.5rem;
+  font-size: 2rem;
+}
+
+.favorites-header p {
+  color: var(--color-text-secondary);
+}
+
+.favorites-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.favorite-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+
+  padding: 1.5rem;
+
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.favorite-card-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.favorite-card-info h3 {
+  margin-top: 0.25rem;
+}
+
+.remove-favorite-button {
+  padding: 0.7rem 1rem;
+
+  border: none;
+  border-radius: 8px;
+
+  background-color: var(--color-sand);
+  color: var(--color-text);
+
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.remove-favorite-button:hover {
+  opacity: 0.85;
+}
+
+.favorites-empty {
+  padding: 4rem 2rem;
+
+  text-align: center;
+
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+}
+
+.favorites-empty-icon {
+  display: block;
+
+  margin-bottom: 1rem;
+
+  color: var(--color-primary);
+  font-size: 3rem;
+}
+
+.favorites-empty h3 {
+  margin-bottom: 0.5rem;
+}
+
+.favorites-empty p {
+  color: var(--color-text-secondary);
+}
+
+/* Clima */
+
+.weather-section {
+  margin-top: 3rem;
+}
+
+.weather-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1rem;
+}
+
+.weather-card {
+  padding: 1.25rem;
+
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.weather-card h3 {
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.weather-description {
+  margin-bottom: 1rem;
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.weather-temperatures {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+
+  margin-bottom: 0.75rem;
+}
+
+.weather-card p {
+  color: var(--color-text-secondary);
+}
+
+.weather-message,
+.weather-error {
+  padding: 1.5rem;
+
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+}
+
+.weather-error {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+/* Destinos */
+
+.destinations-page {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+.destinations-header {
+  margin-bottom: 2rem;
+}
+
+.destinations-header h2 {
+  margin-bottom: 0.5rem;
+  font-size: 2rem;
+}
+
+.destinations-header p {
+  color: var(--color-text-secondary);
+}
+
+.destinations-search {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  max-width: 500px;
+  margin-bottom: 2rem;
+}
+
+.destinations-search label {
+  font-weight: 600;
+}
+
+.destinations-search input {
+  width: 100%;
+  padding: 0.9rem 1rem;
+
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+
+  font: inherit;
+}
+
+.destinations-search input:focus {
+  outline: 2px solid var(--color-secondary);
+  border-color: transparent;
+}
+
+.destinations-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.destination-card {
+  padding: 1.5rem;
+
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.destination-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+
+  margin-bottom: 1rem;
+}
+
+.destination-type {
+  padding: 0.35rem 0.7rem;
+
+  background-color: var(--color-accent);
+  border-radius: 999px;
+
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.current-destination {
+  color: var(--color-primary);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.destination-card h3 {
+  margin-bottom: 0.3rem;
+  font-size: 1.4rem;
+}
+
+.destination-region {
+  margin-bottom: 1rem;
+
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.destination-description {
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+.destinations-empty {
+  padding: 3rem 2rem;
+
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+
+  text-align: center;
+}
+
+.destinations-empty h3 {
+  margin-bottom: 0.5rem;
+}
+
+.destinations-empty p {
+  color: var(--color-text-secondary);
+}
+
+/* Resumen del viaje */
+
+.trip-summary-section {
+  margin-bottom: 3rem;
+}
+
+.trip-summary-card {
+  padding: 1.75rem;
+
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.trip-summary-main {
+  margin-bottom: 1.5rem;
+}
+
+.trip-summary-main h3 {
+  margin-bottom: 0.35rem;
+  font-size: 1.5rem;
+}
+
+.trip-summary-main p {
+  color: var(--color-text-secondary);
+}
+
+.trip-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.summary-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+
+  padding: 1rem;
+
+  background-color: var(--color-background);
+  border-radius: 12px;
+}
+
+.summary-item span {
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+}
+
+.summary-item strong {
+  color: var(--color-primary);
+  font-size: 1.15rem;
+}
+
+/* Filtros del itinerario */
+
+.itinerary-filters {
+  margin-bottom: 3rem;
+  padding: 1.5rem;
+
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.filters-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+
+  margin-bottom: 1.5rem;
+}
+
+.filters-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr auto;
+  gap: 1rem;
+  align-items: end;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filter-group label {
+  font-weight: 600;
+}
+
+.filter-group input,
+.filter-group select {
+  width: 100%;
+  padding: 0.8rem 1rem;
+
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+
+  font: inherit;
+}
+
+.filter-group input:focus,
+.filter-group select:focus {
+  outline: 2px solid var(--color-secondary);
+  border-color: transparent;
+}
+
+.favorite-filter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  min-height: 44px;
+
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.favorite-filter input {
+  width: 18px;
+  height: 18px;
+}
+
+.clear-filters-button {
+  padding: 0.65rem 1rem;
+
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+
+  background-color: var(--color-background);
+  color: var(--color-text);
+
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.clear-filters-button:hover {
+  background-color: var(--color-sand);
+}
+
+.itinerary-results {
+  margin-bottom: 1rem;
+
+  color: var(--color-text-secondary);
+  font-weight: 600;
+}
+
+.itinerary-empty {
+  padding: 3rem 2rem;
+
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+
+  text-align: center;
+}
+
+.itinerary-empty h3 {
+  margin-bottom: 0.5rem;
+}
+
+.itinerary-empty p {
+  margin-bottom: 1.5rem;
+
+  color: var(--color-text-secondary);
+}
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+  .navbar {
+    position: relative;
+
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 1rem 1.25rem;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .navbar-links {
+    display: none;
+
+    position: absolute;
+
+    top: 100%;
+    left: 0;
+
+    width: 100%;
+
+    flex-direction: column;
+    align-items: center;
+
+    gap: 1rem;
+    padding: 1.5rem;
+
+    background-color: var(--color-primary);
+
+    z-index: 1000;
+  }
+
+  .navbar-links.active {
+    display: flex;
+  }
+
+  .dashboard {
+    padding: 1.5rem 1rem;
+  }
+
+  .dashboard-header {
+    padding: 2rem 1.5rem;
+  }
+
+  .dashboard-header h2 {
+    font-size: 1.8rem;
+  }
+
+  .stats-container {
+    grid-template-columns: 1fr;
+  }
+
+  .section-header {
+    align-items: flex-start;
+    flex-direction: column;
+
+    gap: 0.8rem;
+  }
+
+  .activity-card {
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap: 0.8rem;
+  }
+
+  .itinerary-page {
+    padding: 1.5rem 1rem;
+  }
+
+  .itinerary-header h2 {
+    font-size: 1.8rem;
+  }
+
+  .itinerary-date {
+    align-items: flex-start;
+    flex-direction: column;
+
+    gap: 0.6rem;
+  }
+
+  .activity-actions {
+  width: 100%;
+  align-items: flex-start;
+}
+
+.activity-buttons {
+  width: 100%;
+}
+
+.edit-button,
+.delete-button {
+  flex: 1;
+}
+
+.form-row {
+  grid-template-columns: 1fr;
+}
+
+.activity-form {
+  padding: 1.5rem;
+}
+.inline-edit-row {
+  grid-template-columns: 1fr;
+}
+
+.inline-edit-form {
+  width: 100%;
+}
+
+.favorites-page {
+  padding: 2rem 1rem;
+}
+
+.favorite-card {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.remove-favorite-button {
+  width: 100%;
+}
+.weather-grid {
+  grid-template-columns: 1fr;
+}
+.destinations-page {
+  padding: 2rem 1rem;
+}
+
+.destinations-grid {
+  grid-template-columns: 1fr;
+}
+
+.destination-card-header {
+  align-items: flex-start;
+}
+.trip-summary-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+/* Texto negro en Navbar y Dashboard */
+
+/* Navbar */
+.navbar {
+  color: #000000;
+}
+
+.navbar-brand h1 {
+  color: #000000;
+}
+
+.navbar-links a {
+  color: #000000;
+}
+
+.menu-toggle {
+  color: #000000;
+}
+
+/* Dashboard */
+.dashboard,
+.dashboard h1,
+.dashboard h2,
+.dashboard h3,
+.dashboard p,
+.dashboard span {
+  color: #000000;
+}
+
+/* Montos de las tarjetas */
+.stat-card,
+.stat-card h3,
+.stat-card p,
+.stat-card span,
+.stat-value {
+  color: #000000;
+}
+
+/* Costos de actividades */
+.activity-cost {
+  color: #000000;
+}
+
+/* Montos del resumen del viaje */
+.summary-item strong {
+  color: #000000;
+}
+
+/* Etiquetas del resumen */
+.summary-item span {
+  color: #000000;
+}
+
+
+
+@media (max-width: 480px) {
+  .trip-summary-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.filters-header {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.filters-grid {
+  grid-template-columns: 1fr;
+}
+
+.clear-filters-button {
+  width: 100%;
+}
+
+.favorite-filter {
+  width: 100%;
+}
+} 
