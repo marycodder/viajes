@@ -1,4 +1,6 @@
-import { MONEDAS, calcularResumen, formatearMonto } from './presupuestoUtils'
+import GastosLista from './GastosLista'
+import Simulador from './Simulador'
+import { MONEDAS, TASAS_RESPALDO, calcularResumen, formatearMonto, generarSimulacion } from './presupuestoUtils'
 import { usePresupuesto } from './usePresupuesto'
 
 /**
@@ -24,6 +26,16 @@ export default function Presupuesto({ destino, dias: diasProp }) {
 
   const cambiar = (campo, valor) => dispatch({ type: 'CAMPO', campo, valor })
   const m = (n) => formatearMonto(n, moneda)
+
+  const generar = () =>
+    dispatch({
+      type: 'APLICAR_SIMULACION',
+      items: generarSimulacion(
+        { ...estado.parametros, dias, viajeros: estado.viajeros },
+        moneda,
+        TASAS_RESPALDO,
+      ),
+    })
 
   return (
     <div>
@@ -75,6 +87,12 @@ export default function Presupuesto({ destino, dias: diasProp }) {
         </label>
       </section>
 
+      <Simulador
+        parametros={estado.parametros}
+        onParametro={(campo, valor) => dispatch({ type: 'PARAMETRO', campo, valor })}
+        onGenerar={generar}
+      />
+
       <section>
         <h2>Resumen</h2>
         <ul>
@@ -85,7 +103,15 @@ export default function Presupuesto({ destino, dias: diasProp }) {
           <li>Por día: {m(resumen.porDia)}</li>
         </ul>
       </section>
+
+      <GastosLista
+        items={estado.items}
+        moneda={moneda}
+        dias={dias}
+        onAgregar={(item) => dispatch({ type: 'AGREGAR', item })}
+        onEliminar={(id) => dispatch({ type: 'ELIMINAR', id })}
+        onEditar={(id, monto) => dispatch({ type: 'EDITAR_MONTO', id, monto })}
+      />
     </div>
   )
 }
-
