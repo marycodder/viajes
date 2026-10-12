@@ -1,7 +1,8 @@
 import GastosLista from './GastosLista'
 import Simulador from './Simulador'
-import { MONEDAS, TASAS_RESPALDO, calcularResumen, formatearMonto, generarSimulacion } from './presupuestoUtils'
+import { MONEDAS, calcularResumen, convertir, formatearMonto, generarSimulacion } from './presupuestoUtils'
 import { usePresupuesto } from './usePresupuesto'
+import { useTasasCambio } from './useTasasCambio'
 
 /**
  * Módulo de presupuesto del viaje.
@@ -13,6 +14,7 @@ export default function Presupuesto({ destino, dias: diasProp }) {
   const [estado, dispatch] = usePresupuesto({
     moneda: MONEDAS.includes(destino?.moneda) ? destino.moneda : 'USD',
   })
+  const { tasas, fuente, fecha, cargando } = useTasasCambio()
 
   const dias = diasProp ?? estado.dias
   const { moneda } = estado
@@ -33,20 +35,36 @@ export default function Presupuesto({ destino, dias: diasProp }) {
       items: generarSimulacion(
         { ...estado.parametros, dias, viajeros: estado.viajeros },
         moneda,
-        TASAS_RESPALDO,
+        tasas,
       ),
+    })
+
+  const cambiarMoneda = (nueva) =>
+    dispatch({
+      type: 'CAMBIAR_MONEDA',
+      moneda: nueva,
+      factor: convertir(1, moneda, nueva, tasas),
     })
 
   return (
     <div>
       <h1>Presupuesto del viaje{destino?.pais ? ` · ${destino.pais}` : ''}</h1>
 
+      <p>
+        Tasas de cambio:{' '}
+        {cargando
+          ? 'actualizando…'
+          : fuente === 'respaldo'
+            ? 'aproximadas (sin conexión a la API)'
+            : `API${fecha ? ` · ${fecha.slice(0, 16)}` : ''}`}
+      </p>
+
       <section>
         <h2>Datos del viaje</h2>
 
         <label>
           Moneda{' '}
-          <select value={moneda} onChange={(e) => cambiar('moneda', e.target.value)}>
+          <select value={moneda} onChange={(e) => cambiarMoneda(e.target.value)}>
             {MONEDAS.map((mo) => (
               <option key={mo}>{mo}</option>
             ))}
@@ -85,6 +103,12 @@ export default function Presupuesto({ destino, dias: diasProp }) {
             onChange={(e) => cambiar('dias', Math.max(1, Number(e.target.value) || 1))}
           />
         </label>
+
+        {MONEDAS.includes(destino?.moneda) && destino.moneda !== moneda && (
+          <button type="button" onClick={() => cambiarMoneda(destino.moneda)}>
+            Usar la moneda del destino ({destino.moneda})
+          </button>
+        )}
       </section>
 
       <Simulador
@@ -115,3 +139,4 @@ export default function Presupuesto({ destino, dias: diasProp }) {
     </div>
   )
 }
+
