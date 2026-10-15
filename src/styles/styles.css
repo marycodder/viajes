@@ -1223,6 +1223,32 @@ a {
   }
 }
 
+.navbar-logo {
+  height: 42px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.navbar-logo {
+  height: 42px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.navbar-brand-text {
+  color: #ffffff;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
 /* Teléfonos pequeños */
 
 @media (max-width: 480px) {
@@ -1466,5 +1492,9 @@ a {
 
 .favorite-filter {
   width: 100%;
+}
+
+.navbar-logo {
+  height: 36px;
 }
 } 
