@@ -22,18 +22,20 @@ function Destinos() {
         <h2>Destinos</h2>
 
         <p>
-          Descubre destinos que puedes considerar para organizar tus próximos
-          viajes.
+          Santiago es el destino de tu viaje actual. También puedes explorar
+          otros destinos sugeridos para futuras planificaciones.
         </p>
       </section>
 
       <section className="destinations-search">
-        <label htmlFor="buscar-destino">Buscar destino</label>
+        <label htmlFor="buscar-destino">
+          Buscar destino
+        </label>
 
         <input
           id="buscar-destino"
           type="text"
-          placeholder="Ej: Santiago, costa, naturaleza..."
+          placeholder="Busca destinos sugeridos por nombre, región o tipo..."
           value={busqueda}
           onChange={(evento) => setBusqueda(evento.target.value)}
         />
@@ -50,9 +52,14 @@ function Destinos() {
       ) : (
         <section className="destinations-grid">
           {destinosFiltrados.map((destino) => (
-            <article className="destination-card" key={destino.id}>
+            <article
+              className="destination-card"
+              key={destino.id}
+            >
               <div className="destination-card-header">
-                <span className="destination-type">{destino.tipo}</span>
+                <span className="destination-type">
+                  {destino.tipo}
+                </span>
 
                 {destino.destacado && (
                   <span className="current-destination">

@@ -7,7 +7,11 @@ import { viajes } from '../data/viajes';
 import { obtenerClima } from '../services/weatherApi';
 import TripSummary from '../components/TripSummary';
 
-function Dashboard({ actividades }) {
+function Dashboard({ 
+  actividades,
+  gastosAdicionales = 0,
+
+ }) {
   const viaje = viajes[0];
 
   const [clima, setClima] = useState([]);
@@ -21,10 +25,17 @@ function Dashboard({ actividades }) {
       maximumFractionDigits: 0,
     }).format(valor);
 
-  const totalGastado = actividades.reduce(
-    (total, actividad) => total + actividad.costo,
-    0
-  );
+  const totalActividades =
+    actividades.reduce(
+      (total, actividad) =>
+        total +
+        (Number(actividad.costo) || 0),
+      0
+    );
+
+  const totalGastado =
+    totalActividades +
+    gastosAdicionales;
 
   const presupuestoDisponible =
     viaje.presupuesto - totalGastado;
