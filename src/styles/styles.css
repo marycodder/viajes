@@ -990,6 +990,287 @@ a {
 
   color: var(--color-text-secondary);
 }
+
+/* Mantener texto blanco en Navbar */
+
+.navbar .navbar-brand h1,
+.navbar .navbar-links a,
+.navbar .menu-toggle {
+  color: #ffffff;
+}
+
+/* Mantener texto blanco en cabecera del Dashboard */
+
+.dashboard-header,
+.dashboard-header h2,
+.dashboard-header p,
+.dashboard-header span,
+.dashboard-header .section-label,
+.dashboard-header .trip-dates,
+.dashboard-header .trip-summary {
+  color: #ffffff !important;
+}
+
+/* ---------- RESPONSIVE ---------- */
+
+@media (max-width: 768px) {
+  .navbar {
+    position: relative;
+
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 1rem 1.25rem;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .navbar-links {
+    display: none;
+
+    position: absolute;
+
+    top: 100%;
+    left: 0;
+
+    width: 100%;
+
+    flex-direction: column;
+    align-items: center;
+
+    gap: 1rem;
+    padding: 1.5rem;
+
+    background-color: var(--color-primary);
+
+    z-index: 1000;
+  }
+
+  .navbar-links.active {
+    display: flex;
+  }
+
+  /* Dashboard */
+
+  .dashboard {
+    width: 100%;
+    max-width: 100%;
+
+    padding: 1.5rem 1rem;
+  }
+
+  .dashboard-header {
+    width: 100%;
+
+    padding: 2rem 1.5rem;
+
+    margin-bottom: 1.5rem;
+  }
+
+  .dashboard-header h2 {
+    font-size: 1.8rem;
+  }
+
+  /*
+    Dashboard actual:
+    las tarjetas usan .stats-grid,
+    no solamente .stats-container.
+  */
+
+  .stats-grid,
+  .stats-container {
+    width: 100%;
+
+    grid-template-columns: 1fr;
+
+    gap: 1rem;
+  }
+
+  .stat-card {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .section-header {
+    align-items: flex-start;
+    flex-direction: column;
+
+    gap: 0.8rem;
+  }
+
+  /* Actividades */
+
+  .activity-card {
+    width: 100%;
+
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap: 0.8rem;
+  }
+
+  .activity-actions {
+    width: 100%;
+
+    align-items: flex-start;
+  }
+
+  .activity-buttons {
+    width: 100%;
+  }
+
+  .edit-button,
+  .delete-button {
+    flex: 1;
+  }
+
+  /* Itinerario */
+
+  .itinerary-page {
+    padding: 1.5rem 1rem;
+  }
+
+  .itinerary-header h2 {
+    font-size: 1.8rem;
+  }
+
+  .itinerary-date {
+    align-items: flex-start;
+    flex-direction: column;
+
+    gap: 0.6rem;
+  }
+
+  /* Formulario */
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .activity-form {
+    padding: 1.5rem;
+  }
+
+  .inline-edit-row {
+    grid-template-columns: 1fr;
+  }
+
+  .inline-edit-form {
+    width: 100%;
+  }
+
+  /* Favoritos */
+
+  .favorites-page {
+    padding: 2rem 1rem;
+  }
+
+  .favorite-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .remove-favorite-button {
+    width: 100%;
+  }
+
+  /* Clima */
+
+  .weather-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Destinos */
+
+  .destinations-page {
+    padding: 2rem 1rem;
+  }
+
+  .destinations-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .destination-card-header {
+    align-items: flex-start;
+  }
+
+  /* Resumen */
+
+  .trip-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* Filtros */
+
+  .filters-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .filters-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .clear-filters-button {
+    width: 100%;
+  }
+
+  .favorite-filter {
+    width: 100%;
+  }
+}
+
+.navbar-logo {
+  height: 42px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.navbar-logo {
+  height: 42px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.navbar-brand-text {
+  color: #ffffff;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+/* Teléfonos pequeños */
+
+@media (max-width: 480px) {
+  .trip-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-header {
+    padding: 1.5rem 1.25rem;
+  }
+}
+/* Mantener texto blanco en cabecera del Dashboard */
+
+.dashboard-header,
+.dashboard-header h2,
+.dashboard-header p,
+.dashboard-header span,
+.dashboard-header .section-label,
+.dashboard-header .trip-dates,
+.dashboard-header .trip-summary {
+  color: #ffffff !important;
+}
 /* RESPONSIVE */
 
 @media (max-width: 768px) {
@@ -1211,5 +1492,9 @@ a {
 
 .favorite-filter {
   width: 100%;
+}
+
+.navbar-logo {
+  height: 36px;
 }
 } 
