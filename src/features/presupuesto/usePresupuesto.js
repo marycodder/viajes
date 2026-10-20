@@ -1,7 +1,7 @@
-import { useEffect, useReducer } from 'react'
-import { PARAMETROS_INICIALES } from './presupuestoUtils'
+import { useEffect, useReducer } from 'react';
+import { PARAMETROS_INICIALES } from './presupuestoUtils';
 
-const CLAVE = 'viajes.presupuesto.v1'
+const CLAVE = 'viajes.presupuesto.v1';
 
 export const ESTADO_INICIAL = {
   moneda: 'USD',
@@ -10,64 +10,154 @@ export const ESTADO_INICIAL = {
   dias: 7,
   parametros: PARAMETROS_INICIALES,
   items: [],
-}
+};
 
 function cargar(base) {
   try {
-    const raw = localStorage.getItem(CLAVE)
-    if (!raw) return base
-    return { ...base, ...JSON.parse(raw) }
+    const raw = localStorage.getItem(CLAVE);
+
+    if (!raw) return base;
+
+    return {
+      ...base,
+      ...JSON.parse(raw),
+    };
   } catch {
-    return base
+    return base;
   }
 }
 
 function reducer(state, accion) {
   switch (accion.type) {
     case 'CAMPO':
-      return { ...state, [accion.campo]: accion.valor }
+      return {
+        ...state,
+        [accion.campo]: accion.valor,
+      };
+
     case 'PARAMETRO':
-      return { ...state, parametros: { ...state.parametros, [accion.campo]: accion.valor } }
+      return {
+        ...state,
+        parametros: {
+          ...state.parametros,
+          [accion.campo]: accion.valor,
+        },
+      };
+
     case 'AGREGAR':
-      return { ...state, items: [...state.items, accion.item] }
+      return {
+        ...state,
+        items: [
+          ...state.items,
+          accion.item,
+        ],
+      };
+
     case 'ELIMINAR':
-      return { ...state, items: state.items.filter((i) => i.id !== accion.id) }
+      return {
+        ...state,
+        items: state.items.filter(
+          (i) => i.id !== accion.id
+        ),
+      };
+
     case 'EDITAR_MONTO':
       return {
         ...state,
-        items: state.items.map((i) => (i.id === accion.id ? { ...i, monto: accion.monto } : i)),
-      }
+
+        items: state.items.map((i) =>
+          i.id === accion.id
+            ? {
+                ...i,
+                monto: accion.monto,
+              }
+            : i
+        ),
+      };
+
     case 'APLICAR_SIMULACION':
       // Reemplaza solo lo simulado y conserva los gastos manuales.
       return {
         ...state,
-        items: [...accion.items, ...state.items.filter((i) => i.origen !== 'simulado')],
+
+        items: [
+          ...accion.items,
+
+          ...state.items.filter(
+            (i) => i.origen !== 'simulado'
+          ),
+        ],
+      };
+
+    case 'CAMBIAR_MONEDA': {
+      const factor = Number(accion.factor);
+
+      if (
+        !Number.isFinite(factor) ||
+        factor <= 0
+      ) {
+        return state;
       }
-    case 'CAMBIAR_MONEDA':
+
       return {
         ...state,
+
         moneda: accion.moneda,
-        presupuestoTotal: Math.round(state.presupuestoTotal * accion.factor * 100) / 100,
-        items: state.items.map((i) => ({ ...i, monto: Math.round(i.monto * accion.factor * 100) / 100 })),
-      }
+
+        presupuestoTotal:
+          Math.round(
+            state.presupuestoTotal *
+              factor *
+              100
+          ) / 100,
+
+        items: state.items.map((i) => ({
+          ...i,
+
+          monto:
+            Math.round(
+              (Number(i.monto) || 0) *
+                factor *
+                100
+            ) / 100,
+        })),
+      };
+    }
+
     case 'LIMPIAR':
-      return { ...state, items: [] }
+      return {
+        ...state,
+        items: [],
+      };
+
     default:
-      return state
+      return state;
   }
 }
 
-/** Estado del presupuesto con persistencia en localStorage. */
+/**
+ * Estado del presupuesto con persistencia en LocalStorage.
+ */
 export function usePresupuesto(inicial = {}) {
-  const [state, dispatch] = useReducer(reducer, { ...ESTADO_INICIAL, ...inicial }, cargar)
+  const [state, dispatch] = useReducer(
+    reducer,
+    {
+      ...ESTADO_INICIAL,
+      ...inicial,
+    },
+    cargar
+  );
 
   useEffect(() => {
     try {
-      localStorage.setItem(CLAVE, JSON.stringify(state))
+      localStorage.setItem(
+        CLAVE,
+        JSON.stringify(state)
+      );
     } catch {
       /* almacenamiento no disponible: se ignora */
     }
-  }, [state])
+  }, [state]);
 
-  return [state, dispatch]
+  return [state, dispatch];
 }

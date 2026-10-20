@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import './Presupuesto.css';
 
@@ -11,10 +11,31 @@ import {
   calcularResumen,
   convertir,
   generarSimulacion,
+  formatearMonto,
 } from './presupuestoUtils';
 
 import { usePresupuesto } from './usePresupuesto';
 import { useTasasCambio } from './useTasasCambio';
+
+/*
+ * Límites aproximados equivalentes a un presupuesto
+ * máximo cercano a USD 100.000.
+ *
+ * Evita que el usuario ingrese montos absurdamente altos
+ * que puedan romper visualmente el resumen.
+ */
+const MAX_PRESUPUESTO_POR_MONEDA = {
+  USD: 100000,
+  EUR: 92000,
+  CLP: 100000000,
+  ARS: 100000000,
+  MXN: 1800000,
+  COP: 400000000,
+  PEN: 375000,
+  BRL: 550000,
+  GBP: 78000,
+  JPY: 15000000,
+};
 
 export default function Presupuesto({
   destino,
@@ -23,6 +44,8 @@ export default function Presupuesto({
   presupuestoInicial = 0,
   onGastosAdicionalesChange,
 }) {
+  const [errorPresupuesto, setErrorPresupuesto] = useState('');
+
   const [estado, dispatch] = usePresupuesto({
     moneda: MONEDAS.includes(destino?.moneda)
       ? destino.moneda
@@ -36,6 +59,9 @@ export default function Presupuesto({
 
   const dias = diasProp ?? estado.dias;
   const { moneda } = estado;
+
+  const maxPresupuesto =
+    MAX_PRESUPUESTO_POR_MONEDA[moneda] ?? 100000000;
 
   /*
    * Evita duplicar actividades que hayan podido quedar
@@ -137,10 +163,13 @@ export default function Presupuesto({
       ),
     });
 
-  const cambiarMoneda = (nueva) =>
+  const cambiarMoneda = (nueva) => {
+    setErrorPresupuesto('');
+
     dispatch({
       type: 'CAMBIAR_MONEDA',
       moneda: nueva,
+
       factor: convertir(
         1,
         moneda,
@@ -148,6 +177,7 @@ export default function Presupuesto({
         tasas
       ),
     });
+  };
 
   const formatoClp = (valor) =>
     new Intl.NumberFormat('es-CL', {
@@ -219,19 +249,42 @@ export default function Presupuesto({
             <input
               type="number"
               min="0"
-              value={
-                estado.presupuestoTotal || ''
-              }
-              onChange={(e) =>
+              max={maxPresupuesto}
+              value={estado.presupuestoTotal ?? ''}
+              onChange={(e) => {
+                const valor =
+                  Number(e.target.value) || 0;
+
+                if (valor > maxPresupuesto) {
+                  setErrorPresupuesto(
+                    `El presupuesto máximo permitido es ${formatearMonto(
+                      maxPresupuesto,
+                      moneda
+                    )}.`
+                  );
+
+                  cambiar(
+                    'presupuestoTotal',
+                    maxPresupuesto
+                  );
+
+                  return;
+                }
+
+                setErrorPresupuesto('');
+
                 cambiar(
                   'presupuestoTotal',
-                  Math.max(
-                    0,
-                    Number(e.target.value) || 0
-                  )
-                )
-              }
+                  Math.max(0, valor)
+                );
+              }}
             />
+
+            {errorPresupuesto && (
+              <small className="pres-error">
+                {errorPresupuesto}
+              </small>
+            )}
           </label>
 
           <label className="pres-field">

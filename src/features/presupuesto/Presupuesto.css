@@ -253,6 +253,15 @@
   flex-shrink: 0;
   color: var(--pres-azul-fuerte);
 }
+.pres-error {
+  display: block;
+  margin-top: 5px;
+  font-size: 0.8rem;
+  color: #c62828;
+  font-weight: 500;
+}
+
+
 
 @media (max-width: 560px) {
   .pres-header { padding: 16px; }
