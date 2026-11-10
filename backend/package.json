@@ -15,6 +15,7 @@
     "migration:revert": "npm run build && node node_modules/typeorm/cli.js migration:revert -d dist/database/data-source.js",
     "seed": "npm run build && node dist/database/seed.js",
     "smoke": "node scripts/smoke.mjs",
+    "check:runtime": "node scripts/check-runtime.mjs",
     "env:setup": "node scripts/setup-env.mjs",
     "openapi": "npm run build && node scripts/export-openapi.cjs"
   },

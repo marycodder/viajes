@@ -69,6 +69,16 @@ npm.cmd run openapi
 
 Las pruebas automáticas HTTP usan la migración SQL real sobre `pg-mem`. También se prueban validación de documentos, permisos de notas, reintentos de eventos y clima con dependencias simuladas. Esto no reemplaza ejecutar `npm run smoke` con PostgreSQL y MongoDB reales. La guía explica ambas modalidades.
 
+El **10 de noviembre de 2026** se completó la prueba `smoke` con PostgreSQL y MongoDB reales en Docker Desktop para Windows. Los cuatro servicios quedaron ejecutándose; las dos bases y el backend reportaron estado saludable. También se verificaron Swagger (52 operaciones), acceso HTTP a la web, el viaje de demostración persistido y siete días de pronóstico real desde Open-Meteo.
+
+Con los servicios iniciados y el seed cargado, puedes repetir la comprobación de solo lectura desde la raíz:
+
+```powershell
+node backend/scripts/check-runtime.mjs
+```
+
+Este comando usa la cuenta demo configurada localmente y no imprime contraseñas ni tokens. Verificar que la web responde HTTP 200 no implica que sus pantallas ya estén conectadas a la API.
+
 ## Continuidad y decisiones
 
 - Se conservan componentes, navegación e integración meteorológica del Taller 2. Su documentación original e integrantes están en [README.md.md](README.md.md).
@@ -89,10 +99,10 @@ Se utilizó Codex como apoyo para diseñar e implementar el backend, elaborar mi
 
 - **Instrucción representativa:** crear el backend de TripPlan con NestJS, PostgreSQL, MongoDB, Swagger y Docker Compose, respetando el enunciado del Hito 3.
 - **Resultado:** código de API, modelo SQL y documental, validaciones, pruebas y guía de ejecución.
-- **Validación automatizada:** compilación TypeScript, pruebas HTTP/reglas de negocio y compilación del frontend. Las pruebas sobre servicios reales se ejecutan con el comando smoke cuando Docker está disponible.
+- **Validación automatizada:** compilación TypeScript, veinte pruebas HTTP/reglas de negocio, documentos, eventos y clima, y compilación del frontend. Se ejecutaron además el flujo `smoke` sobre PostgreSQL y MongoDB reales y la comprobación local de servicios, Swagger, datos demo y Open-Meteo.
 - **Validación humana:** pendiente de que el equipo revise el código, ejecute la demostración y registre lo que adaptó o descartó. No se atribuye una revisión humana que todavía no se ha realizado.
 - **Aprendizaje a documentar por el equipo:** relaciones entre entidades, permisos, separación SQL/NoSQL, diferencia entre presupuesto y gasto real, y reutilización de la API desde móvil.
 
 ## Limitaciones conocidas
 
-La integración de las pantallas React está pendiente. No hay recuperación de contraseña, verificación de correo, conversión de monedas, pagos reales ni colaboración con edición simultánea por invitados. Los JWT expiran en una hora; se renuevan iniciando sesión. La ejecución completa con contenedores debe verificarse en un equipo con Docker Desktop instalado y en funcionamiento.
+La integración de las pantallas React está pendiente. No hay recuperación de contraseña, verificación de correo, conversión de monedas, pagos reales ni colaboración con edición simultánea por invitados. Los JWT expiran en una hora; se renuevan iniciando sesión. La ejecución con contenedores y el flujo principal del backend ya se verificaron con Docker Desktop en Windows.

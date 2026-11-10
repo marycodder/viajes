@@ -209,6 +209,7 @@ npm.cmd run build
 npm.cmd start
 npm.cmd run openapi
 npm.cmd run seed
+npm.cmd run check:runtime
 ```
 
 El desarrollo local necesita ambas bases funcionando y `backend/.env`. Para ejecutar migraciones explícitamente existe `npm.cmd run migration:run`. `migration:revert` revierte la última migración y elimina sus tablas: es una operación destructiva para una base desechable, con la API detenida. El arranque normal siempre vuelve a aplicar migraciones pendientes.
@@ -219,6 +220,8 @@ El desarrollo local necesita ambas bases funcionando y `backend/.env`. Para ejec
 - Las pruebas documentales validan esquemas Mongoose sin conexión y usan dobles para comprobar filtros/permisos y reintentos del worker.
 - El proveedor meteorológico se simula para verificar fallos, respuestas incompletas y caché.
 - `npm run smoke` verifica el flujo contra PostgreSQL y MongoDB reales cuando los servicios están levantados. No necesita servicios meteorológicos externos. Conserva tres cuentas ficticias por ejecución y limpia el viaje y destino de prueba.
-- Las pruebas con emuladores no validan el motor Docker, los bloqueos concurrentes reales de PostgreSQL ni la red entre contenedores. La ejecución con Compose debe comprobarse en un equipo con Docker disponible.
+- `npm run check:runtime` se ejecuta en la terminal de Windows, desde `backend/`, con el seed cargado. Comprueba servicios, web, Swagger, cuenta demo, presupuesto, documentos e integración meteorológica sin modificar datos ni imprimir credenciales. También se puede ejecutar desde la raíz con `node backend/scripts/check-runtime.mjs`.
+- El 10 de noviembre de 2026 se completaron `smoke` y `check:runtime` con los cuatro servicios de Compose en Docker Desktop para Windows. Se verificaron PostgreSQL y MongoDB saludables, 52 operaciones Swagger, datos demo persistidos y siete días de clima real de Open-Meteo.
+- Las pruebas con emuladores no validan los bloqueos concurrentes reales de PostgreSQL. La prueba con Compose verifica el flujo principal y la comunicación real entre API y bases de datos.
 
 Para integrar React, sustituye las lecturas/escrituras de `localStorage` por estos endpoints y agrega autenticación, selección de viaje, viajeros, reservas, gastos y documentos a la interfaz. Mantén el token y el viaje seleccionado en el estado del cliente; los datos operacionales deben provenir de la API. Esa conexión del frontend no está incluida en esta implementación del backend.

@@ -103,6 +103,16 @@ Comprueba registro/login, permisos, viajes, persistencia SQL, itinerarios, favor
 
 Para comprobar el servicio meteorológico usa Swagger, con un destino asociado y un viaje que coincida con los próximos dieciséis días. La prueba smoke no depende de la disponibilidad de Open-Meteo.
 
+Con el seed cargado, también puedes ejecutar desde la raíz una comprobación de solo lectura:
+
+```powershell
+node backend/scripts/check-runtime.mjs
+```
+
+Verifica las bases, las direcciones web, Swagger, la cuenta demo, su presupuesto, documentos MongoDB y el clima real. Lee la contraseña desde el `.env` local y no imprime credenciales. Esta comprobación requiere que Open-Meteo esté disponible y que las credenciales iniciales de la cuenta demo coincidan con `SEED_PASSWORD`.
+
+El 10 de noviembre de 2026 se completaron tanto `smoke` como esta comprobación con los servicios reales. El viaje de ejemplo quedó cargado: presupuesto de 350.000 CLP, gasto real de 8.000 CLP y saldo de 342.000 CLP.
+
 ## 8. Detener y volver a iniciar
 
 ```powershell
@@ -146,4 +156,4 @@ npm.cmd run build
 | Respuesta 429 | Espera un minuto; hay límites de solicitudes y de registro/login. |
 | No aparece historial inmediatamente | Espera unos segundos: el worker entrega los eventos SQL a MongoDB en segundo plano. |
 
-Si necesitas que continúe la verificación, basta con indicar que Docker Desktop ya está abierto. El proyecto sigue en la carpeta compartida y no necesita permisos nuevos sobre otros directorios.
+Para volver a usar el proyecto, abre Docker Desktop y ejecuta `docker compose start` desde la raíz. No necesitas recrear los contenedores ni cargar el seed cada vez. Los cambios del backend requieren reconstruir su imagen con `docker compose up --build -d backend`.
