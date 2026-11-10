@@ -1,20 +1,15 @@
-function TripSummary({
-  viaje,
-  actividades,
-  totalGastado,
-  presupuestoDisponible,
-}) {
-  const cantidadFavoritos = actividades.filter(
-    (actividad) => actividad.favorito
-  ).length;
+import { money } from '../services/format';
 
-  const formatoMoneda = (valor) =>
-    new Intl.NumberFormat('es-CL', {
-      style: 'currency',
-      currency: 'CLP',
-      maximumFractionDigits: 0,
-    }).format(valor);
-
+export default function TripSummary({ trip, activities, summary }) {
+  const items = [
+    ['Actividades vigentes', summary.activeActivities],
+    ['Favoritos personales', activities.filter((item) => item.favorite).length],
+    ['Estimado de actividades', money(summary.estimatedActivitiesCost)],
+    ['Gastos reales', money(summary.spent)],
+    ['Disponible', money(summary.remaining)],
+    ['Viajeros', summary.travelers],
+    ['Reservas confirmadas', summary.confirmedReservations],
+  ];
   return (
     <section className="trip-summary-section">
       <div className="section-header">
@@ -23,40 +18,22 @@ function TripSummary({
           <h2>Resumen del viaje</h2>
         </div>
       </div>
-
       <div className="trip-summary-card">
         <div className="trip-summary-main">
-          <h3>{viaje.destino}</h3>
-
+          <h3>{trip.name}</h3>
           <p>
-            {viaje.fechaInicio} - {viaje.fechaFin}
+            {trip.startDate} — {trip.endDate}
           </p>
         </div>
-
         <div className="trip-summary-grid">
-          <div className="summary-item">
-            <span>Actividades</span>
-            <strong>{actividades.length}</strong>
-          </div>
-
-          <div className="summary-item">
-            <span>Favoritos</span>
-            <strong>{cantidadFavoritos}</strong>
-          </div>
-
-          <div className="summary-item">
-            <span>Gastado</span>
-            <strong>{formatoMoneda(totalGastado)}</strong>
-          </div>
-
-          <div className="summary-item">
-            <span>Disponible</span>
-            <strong>{formatoMoneda(presupuestoDisponible)}</strong>
-          </div>
+          {items.map(([label, value]) => (
+            <div className="summary-item" key={label}>
+              <span>{label}</span>
+              <strong>{value}</strong>
+            </div>
+          ))}
         </div>
       </div>
     </section>
   );
 }
-
-export default TripSummary;

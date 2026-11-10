@@ -1,0 +1,320 @@
+/* Extensión funcional: conserva la paleta y las tarjetas del Taller 2. */
+.auth-page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+.auth-intro {
+  margin-bottom: 2rem;
+}
+.auth-intro h1 {
+  margin-bottom: 1rem;
+  line-height: 1.25;
+}
+.auth-intro p {
+  color: var(--color-text-secondary);
+}
+.entity-form {
+  margin: 1.5rem 0 2rem;
+  max-width: none;
+}
+.entity-form h2 {
+  margin-bottom: 1rem;
+}
+.entity-form fieldset {
+  border: 0;
+  padding: 0;
+  min-width: 0;
+}
+.entity-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+.entity-fields .full-width {
+  grid-column: 1 / -1;
+}
+.entity-form .form-group {
+  min-width: 0;
+  margin-bottom: 0;
+}
+.entity-form input,
+.entity-form select,
+.entity-form textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 0.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font: inherit;
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+.entity-form textarea {
+  resize: vertical;
+}
+.entity-form label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+}
+.entity-form small {
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+.entity-form .activity-buttons {
+  margin-top: 1.2rem;
+}
+.activity-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.7rem;
+}
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+button {
+  font: inherit;
+}
+button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+button:focus-visible,
+a:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 3px;
+}
+.text-button {
+  border: 0;
+  background: none;
+  color: var(--color-primary);
+  padding: 0.6rem 0;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.trip-toolbar {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+.trip-toolbar > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-width: 0;
+}
+.trip-toolbar label {
+  font-weight: 600;
+  white-space: nowrap;
+}
+.trip-toolbar select {
+  max-width: 460px;
+  min-width: 0;
+  padding: 0.65rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: white;
+  font: inherit;
+}
+.trip-toolbar .success-message,
+.trip-toolbar .loading-message {
+  margin: 0;
+  padding: 0.5rem 0.8rem;
+}
+.role-badge {
+  padding: 0.4rem 0.7rem;
+  border-radius: 20px;
+  background: var(--color-sand);
+  font-size: 0.85rem;
+}
+.navbar {
+  gap: 1rem;
+}
+.navbar-links {
+  gap: 0.85rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.navbar-links a {
+  font-size: 0.95rem;
+}
+.navbar-links a.active {
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+.session-name {
+  font-size: 0.85rem;
+  color: inherit;
+}
+.logout-button {
+  padding: 0.45rem 0.6rem;
+  border: 1px solid currentColor;
+  border-radius: 8px;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+}
+.form-error,
+.success-message,
+.info-message,
+.loading-message {
+  padding: 1rem;
+  border-radius: 10px;
+  margin: 0.8rem 0;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.form-error {
+  background: #fee2e2;
+  color: #991b1b;
+}
+.success-message {
+  background: #e0f4ec;
+  color: #155c3e;
+}
+.info-message {
+  background: #e9f3ff;
+  color: #173d72;
+}
+.info-message a {
+  text-decoration: underline;
+  color: inherit;
+}
+.loading-message {
+  background: var(--color-background);
+  color: var(--color-text-secondary);
+}
+.empty-state {
+  padding: 1.5rem;
+  line-height: 1.6;
+}
+.itinerary-day {
+  margin-top: 2rem;
+}
+.itinerary-date {
+  margin-bottom: 1rem;
+}
+.dashboard-section {
+  margin-top: 2rem;
+}
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+.document-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-bottom: 1.5rem;
+}
+.document-content {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  margin: 1rem 0;
+  line-height: 1.6;
+}
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.history-list {
+  list-style: none;
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.history-list time {
+  color: var(--color-text-secondary);
+}
+.destination-card p,
+.activity-card p {
+  overflow-wrap: anywhere;
+  line-height: 1.6;
+}
+.destination-card h3,
+.activity-card h3 {
+  overflow-wrap: anywhere;
+}
+.weather-grid {
+  grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+  margin-top: 1rem;
+}
+.weather-attribution {
+  margin-top: 1rem;
+  font-size: 0.85rem;
+}
+.weather-attribution a {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+@media (max-width: 1150px) {
+  .navbar {
+    position: relative;
+  }
+  .menu-toggle {
+    display: block;
+  }
+  .navbar-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
+    background: var(--color-primary);
+    z-index: 1000;
+  }
+  .navbar-links.active {
+    display: flex;
+  }
+  .navbar-links a,
+  .navbar-links .logout-button {
+    padding: 0.6rem;
+  }
+}
+@media (max-width: 768px) {
+  .entity-fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .stats-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .trip-toolbar {
+    padding: 1rem;
+  }
+  .trip-toolbar > div:first-child {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .trip-toolbar select {
+    max-width: 100%;
+    width: 100%;
+  }
+  .activity-buttons {
+    width: 100%;
+  }
+  .activity-buttons button {
+    min-height: 44px;
+  }
+  .history-list .activity-card {
+    align-items: flex-start;
+  }
+}

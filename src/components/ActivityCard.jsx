@@ -1,199 +1,70 @@
-import { useState } from 'react';
+import useAction from '../hooks/useAction';
+import { activityStatus, money } from '../services/format';
+import { ActionFeedback } from './Feedback';
 
-function ActivityCard({
-  actividad,
-  onActualizarActividad,
-  onEliminarActividad,
-  onAlternarFavorito,
+export default function ActivityCard({
+  activity,
+  owner = false,
+  onEdit,
+  onDelete,
+  onFavorite,
 }) {
-  const [editando, setEditando] = useState(false);
-
-  const [formulario, setFormulario] = useState({
-    nombre: actividad.nombre,
-    fecha: actividad.fecha,
-    hora: actividad.hora,
-    categoria: actividad.categoria,
-    costo: actividad.costo,
-  });
-
-  const manejarCambio = (evento) => {
-    const { name, value } = evento.target;
-
-    setFormulario({
-      ...formulario,
-      [name]: value,
-    });
-  };
-
-  const guardarCambios = () => {
-    const actividadActualizada = {
-      ...actividad,
-      nombre: formulario.nombre,
-      fecha: formulario.fecha,
-      hora: formulario.hora,
-      categoria: formulario.categoria,
-      costo: Number(formulario.costo) || 0,
-    };
-
-    onActualizarActividad(actividadActualizada);
-    setEditando(false);
-  };
-
-  const cancelarEdicion = () => {
-    setFormulario({
-      nombre: actividad.nombre,
-      fecha: actividad.fecha,
-      hora: actividad.hora,
-      categoria: actividad.categoria,
-      costo: actividad.costo,
-    });
-
-    setEditando(false);
-  };
-
-  const formatoMoneda = (valor) =>
-    new Intl.NumberFormat('es-CL', {
-      style: 'currency',
-      currency: 'CLP',
-      maximumFractionDigits: 0,
-    }).format(valor);
-
-  if (editando) {
-    return (
-      <article className="activity-card activity-card-editing">
-        <div className="inline-edit-form">
-          <div className="form-group">
-            <label>Nombre</label>
-
-            <input
-              name="nombre"
-              type="text"
-              value={formulario.nombre}
-              onChange={manejarCambio}
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Categoría</label>
-
-            <select
-              name="categoria"
-              value={formulario.categoria}
-              onChange={manejarCambio}
-            >
-              <option value="Turismo">Turismo</option>
-              <option value="Cultura">Cultura</option>
-              <option value="Gastronomía">Gastronomía</option>
-              <option value="Paseo">Paseo</option>
-              <option value="Entretenimiento">Entretenimiento</option>
-            </select>
-          </div>
-
-          <div className="inline-edit-row">
-            <div className="form-group">
-              <label>Fecha</label>
-
-              <input
-                name="fecha"
-                type="date"
-                value={formulario.fecha}
-                onChange={manejarCambio}
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Hora</label>
-
-              <input
-                name="hora"
-                type="time"
-                value={formulario.hora}
-                onChange={manejarCambio}
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Costo</label>
-
-              <input
-                name="costo"
-                type="number"
-                min="0"
-                value={formulario.costo}
-                onChange={manejarCambio}
-              />
-            </div>
-          </div>
-
-          <div className="activity-buttons">
-            <button className="edit-button" onClick={guardarCambios}>
-              Guardar
-            </button>
-
-            <button className="cancel-button" onClick={cancelarEdicion}>
-              Cancelar
-            </button>
-          </div>
-        </div>
-      </article>
-    );
-  }
-
+  const action = useAction();
   return (
     <article className="activity-card">
       <div className="activity-info">
-        <h3>{actividad.nombre}</h3>
-
+        <h3>{activity.name}</h3>
         <p>
-          {actividad.fecha} · {actividad.hora}
+          {activity.date?.slice(0, 10)} · {activity.time.slice(0, 5)}
         </p>
-
         <p className="activity-cost">
-          {actividad.costo === 0
-            ? 'Gratis'
-            : formatoMoneda(actividad.costo)}
+          Estimado: {money(activity.estimatedCost)}
         </p>
+        <p>{activityStatus[activity.status]}</p>
+        {activity.description && <p>{activity.description}</p>}
+        <ActionFeedback action={action} />
       </div>
-
       <div className="activity-actions">
         <div className="activity-top-actions">
-          <span className="activity-category">
-            {actividad.categoria}
-          </span>
-
+          <span className="activity-category">{activity.category}</span>
           <button
-            className={`favorite-button ${
-              actividad.favorito ? 'active' : ''
-            }`}
-            onClick={() => onAlternarFavorito(actividad.id)}
+            className={`favorite-button ${activity.favorite ? 'active' : ''}`}
+            disabled={action.busy}
             aria-label={
-              actividad.favorito
-                ? 'Quitar de favoritos'
-                : 'Agregar a favoritos'
+              activity.favorite ? 'Quitar de favoritos' : 'Agregar a favoritos'
+            }
+            aria-pressed={activity.favorite}
+            onClick={() =>
+              action.run(
+                () => onFavorite(activity),
+                activity.favorite ? 'Favorito retirado.' : 'Favorito guardado.',
+              )
             }
           >
-            {actividad.favorito ? '♥' : '♡'}
+            {activity.favorite ? '♥' : '♡'}
           </button>
         </div>
-
-        <div className="activity-buttons">
-          <button
-            className="edit-button"
-            onClick={() => setEditando(true)}
-          >
-            Editar
-          </button>
-
-          <button
-            className="delete-button"
-            onClick={() => onEliminarActividad(actividad.id)}
-          >
-            Eliminar
-          </button>
-        </div>
+        {owner && (
+          <div className="activity-buttons">
+            <button className="edit-button" onClick={() => onEdit(activity)}>
+              Editar actividad
+            </button>
+            <button
+              className="delete-button"
+              disabled={action.busy}
+              onClick={() => {
+                if (window.confirm(`¿Eliminar "${activity.name}"?`))
+                  action.run(
+                    () => onDelete(activity.id),
+                    'Actividad eliminada.',
+                  );
+              }}
+            >
+              Eliminar actividad
+            </button>
+          </div>
+        )}
       </div>
     </article>
   );
 }
-
-export default ActivityCard;

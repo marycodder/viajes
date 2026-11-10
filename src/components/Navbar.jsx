@@ -1,36 +1,53 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import { useAuth } from '../context/auth-context';
 
-function Navbar() {
-  const [menuAbierto, setMenuAbierto] = useState(false);
-
-  const alternarMenu = () => {
-    setMenuAbierto(!menuAbierto);
-  };
-
+export default function Navbar() {
+  const [open, setOpen] = useState(false);
+  const { user, signOut } = useAuth();
   return (
-    <nav className="navbar">
+    <nav className="navbar" aria-label="Navegación principal">
       <div className="navbar-brand">
         <h1>TripPlan</h1>
       </div>
-
       <button
         className="menu-toggle"
-        onClick={alternarMenu}
         aria-label="Abrir menú de navegación"
+        aria-expanded={open}
+        aria-controls="main-navigation"
+        onClick={() => setOpen(!open)}
       >
         ☰
       </button>
-
-      <div className={`navbar-links ${menuAbierto ? 'active' : ''}`}>
-        <Link to="/">Inicio</Link>
-        <Link to="/itinerario">Itinerario</Link>
-        <Link to="/destinos">Destinos</Link>
-        <a href="#">Presupuesto</a>
-        <Link to="/favoritos">Favoritos</Link>
+      <div
+        id="main-navigation"
+        className={`navbar-links ${open ? 'active' : ''}`}
+      >
+        {Object.entries({
+          '/': 'Inicio',
+          '/viajes': 'Viajes',
+          '/itinerario': 'Itinerario',
+          '/destinos': 'Destinos',
+          '/presupuesto': 'Presupuesto',
+          '/reservas': 'Reservas',
+          '/favoritos': 'Favoritos',
+          '/notas': 'Notas',
+          '/historial': 'Historial',
+        }).map(([path, label]) => (
+          <NavLink
+            key={path}
+            to={path}
+            end={path === '/'}
+            onClick={() => setOpen(false)}
+          >
+            {label}
+          </NavLink>
+        ))}
+        <span className="session-name">{user.name}</span>
+        <button className="logout-button" onClick={signOut}>
+          Cerrar sesión
+        </button>
       </div>
     </nav>
   );
 }
-
-export default Navbar;

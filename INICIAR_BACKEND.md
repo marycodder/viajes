@@ -62,9 +62,9 @@ Abre en el navegador:
 
 - **Swagger:** http://localhost:3000/docs
 - **Estado de las bases:** http://localhost:3000/api/v1/health
-- **Frontend original:** http://localhost:8080
+- **Aplicación web integrada:** http://localhost:8080
 
-El estado debe devolver `status: "ok"`, PostgreSQL `up` y MongoDB `up`. El frontend original aún usa `localStorage`; las nuevas operaciones se prueban desde Swagger hasta integrar las pantallas.
+El estado debe devolver `status: "ok"`, PostgreSQL `up` y MongoDB `up`. La aplicación web está conectada a la API. Si tenías un contenedor anterior, reconstruye el frontend para cargar las pantallas integradas: `docker compose up --build --no-deps -d frontend`.
 
 ## 5. Cargar un viaje de ejemplo (opcional)
 
@@ -75,6 +75,17 @@ docker compose exec backend node dist/database/seed.js
 Crea una cuenta `demo@tripplan.local`, un viaje, destino, itinerario, actividades, un gasto y documentos MongoDB. Usa fechas próximas al día de ejecución. Repetir el comando conserva la cuenta y el viaje existentes; no cambia su contraseña.
 
 La contraseña inicial es `SEED_PASSWORD` en el `.env` local de la raíz. También puedes registrar una cuenta nueva desde Swagger sin utilizar el seed.
+
+### Usar la aplicación web
+
+1. Abre http://localhost:8080. Inicia sesión con la cuenta demo y su contraseña local, o pulsa **No tengo cuenta: registrarme**.
+2. En **Viajes** puedes crear, editar o eliminar viajes y agregar viajeros por su correo registrado.
+3. Selecciona el viaje desde **Viaje actual**. En **Destinos**, crea o busca un destino y pulsa **Agregar al viaje**.
+4. En **Itinerario**, agrega un día dentro del período y luego sus actividades. Puedes editar su estado y guardar favoritos personales.
+5. En **Presupuesto**, registra gastos reales y revisa saldo, estimaciones y desglose por categoría. El presupuesto total se modifica en **Viajes → Editar viaje**.
+6. En **Reservas**, registra y sigue reservas simuladas. En **Notas**, alterna notas y recomendaciones.
+7. En **Historial**, consulta los cambios de planificación; pueden tardar unos segundos en aparecer.
+8. Recarga o cierra sesión y vuelve a entrar para comprobar que los datos persisten. Los viajeros asociados tienen lectura y favoritos personales; el propietario administra el viaje.
 
 ## 6. Probar desde Swagger
 
@@ -142,6 +153,15 @@ npm.cmd test
 npm.cmd run typecheck
 npm.cmd run build
 ```
+
+La prueba de navegador se ejecuta desde la **raíz `viajes/`**, con Docker iniciado y Chrome instalado:
+
+```powershell
+npm.cmd ci
+npm.cmd run test:e2e
+```
+
+Usa cuentas ficticias y servicios reales. Limpia el viaje y destino de prueba al finalizar; las cuentas ficticias permanecen. Verifica el flujo desde las pantallas, persistencia al recargar/reingresar, permisos, manejo de errores y pantalla móvil. Si usas Edge en lugar de Chrome, configura `$env:E2E_BROWSER_CHANNEL = 'msedge'` antes de ejecutar la prueba.
 
 ## Si aparece un error
 

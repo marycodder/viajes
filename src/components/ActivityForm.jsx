@@ -1,147 +1,55 @@
-import { useState } from 'react';
+import EntityForm from './EntityForm';
+import { activityStatus, categories, options } from '../services/format';
 
-function ActivityForm({ onAgregarActividad }) {
-  const [formulario, setFormulario] = useState({
-    nombre: '',
-    fecha: '',
-    hora: '',
-    categoria: '',
-    costo: '',
-  });
-
-  const [error, setError] = useState('');
-
-  const manejarCambio = (evento) => {
-    const { name, value } = evento.target;
-
-    setFormulario({
-      ...formulario,
-      [name]: value,
-    });
-  };
-
-  const manejarEnvio = (evento) => {
-    evento.preventDefault();
-
-    if (
-      !formulario.nombre ||
-      !formulario.fecha ||
-      !formulario.hora ||
-      !formulario.categoria
-    ) {
-      setError('Completa todos los campos obligatorios.');
-      return;
-    }
-
-    const nuevaActividad = {
-      id: Date.now(),
-      nombre: formulario.nombre,
-      fecha: formulario.fecha,
-      hora: formulario.hora,
-      categoria: formulario.categoria,
-      costo: Number(formulario.costo) || 0,
-      favorito: false,
-    };
-
-    onAgregarActividad(nuevaActividad);
-
-    setFormulario({
-      nombre: '',
-      fecha: '',
-      hora: '',
-      categoria: '',
-      costo: '',
-    });
-
-    setError('');
-  };
-
+export default function ActivityForm({ days, activity, onSave, onCancel }) {
+  const fields = [
+    { name: 'name', label: 'Nombre de la actividad', required: true },
+    {
+      name: 'dayId',
+      label: 'Día del itinerario',
+      required: true,
+      options: [
+        { value: '', label: 'Selecciona un día' },
+        ...days.map((day) => ({
+          value: day.id,
+          label: `${day.date}${day.title ? ` · ${day.title}` : ''}`,
+        })),
+      ],
+    },
+    { name: 'time', label: 'Hora', type: 'time', required: true },
+    {
+      name: 'category',
+      label: 'Categoría',
+      required: true,
+      options: categories.map((value) => ({ value, label: value })),
+      defaultValue: categories[0],
+    },
+    {
+      name: 'estimatedCost',
+      label: 'Costo estimado (CLP)',
+      type: 'number',
+      min: 0,
+      max: 1000000000000,
+      defaultValue: 0,
+      required: true,
+    },
+    {
+      name: 'status',
+      label: 'Estado de la actividad',
+      options: options(activityStatus),
+      defaultValue: 'planned',
+      required: true,
+    },
+    { name: 'description', label: 'Descripción', type: 'textarea' },
+  ];
   return (
-    <form className="activity-form" onSubmit={manejarEnvio}>
-      <h2>Agregar actividad</h2>
-
-      {error && (
-        <p className="form-error">
-          {error}
-        </p>
-      )}
-
-      <div className="form-group">
-        <label htmlFor="nombre">Nombre *</label>
-
-        <input
-          id="nombre"
-          name="nombre"
-          type="text"
-          value={formulario.nombre}
-          onChange={manejarCambio}
-          placeholder="Ej: Visita a Sky Costanera"
-        />
-      </div>
-
-      <div className="form-group">
-        <label htmlFor="categoria">Categoría *</label>
-
-        <select
-          id="categoria"
-          name="categoria"
-          value={formulario.categoria}
-          onChange={manejarCambio}
-        >
-          <option value="">Selecciona una categoría</option>
-          <option value="Turismo">Turismo</option>
-          <option value="Cultura">Cultura</option>
-          <option value="Gastronomía">Gastronomía</option>
-          <option value="Paseo">Paseo</option>
-          <option value="Entretenimiento">Entretenimiento</option>
-        </select>
-      </div>
-
-      <div className="form-row">
-        <div className="form-group">
-          <label htmlFor="fecha">Fecha *</label>
-
-          <input
-            id="fecha"
-            name="fecha"
-            type="date"
-            value={formulario.fecha}
-            onChange={manejarCambio}
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="hora">Hora *</label>
-
-          <input
-            id="hora"
-            name="hora"
-            type="time"
-            value={formulario.hora}
-            onChange={manejarCambio}
-          />
-        </div>
-      </div>
-
-      <div className="form-group">
-        <label htmlFor="costo">Costo estimado</label>
-
-        <input
-          id="costo"
-          name="costo"
-          type="number"
-          min="0"
-          value={formulario.costo}
-          onChange={manejarCambio}
-          placeholder="0"
-        />
-      </div>
-
-      <button type="submit" className="primary-button">
-        Agregar actividad
-      </button>
-    </form>
+    <EntityForm
+      title={activity ? 'Editar actividad' : 'Agregar actividad'}
+      fields={fields}
+      initial={activity ? { ...activity, time: activity.time.slice(0, 5) } : {}}
+      submitLabel={activity ? 'Guardar actividad' : 'Agregar actividad'}
+      onSave={onSave}
+      onCancel={onCancel}
+    />
   );
 }
-
-export default ActivityForm;

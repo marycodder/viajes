@@ -1,248 +1,251 @@
 import { useState } from 'react';
-
+import { Link } from 'react-router-dom';
 import ActivityCard from '../components/ActivityCard';
 import ActivityForm from '../components/ActivityForm';
+import EntityForm from '../components/EntityForm';
+import {
+  ActionFeedback,
+  NoTrip,
+  ReadOnlyNotice,
+  ResourceFeedback,
+} from '../components/Feedback';
+import { useTrip, useTripResource } from '../context/trip-context';
+import useAction from '../hooks/useAction';
+import { categories } from '../services/format';
 
-function Itinerario({
-  actividades,
-  setActividades,
-  onAlternarFavorito,
-}) {
-  const [busqueda, setBusqueda] = useState('');
-  const [categoria, setCategoria] = useState('Todas');
-  const [soloFavoritos, setSoloFavoritos] = useState(false);
-
-  const agregarActividad = (nuevaActividad) => {
-    setActividades((actividadesActuales) => [
-      ...actividadesActuales,
-      nuevaActividad,
-    ]);
-  };
-
-  const eliminarActividad = (id) => {
-    const confirmar = window.confirm(
-      '¿Seguro que quieres eliminar esta actividad?'
-    );
-
-    if (!confirmar) {
-      return;
-    }
-
-    setActividades((actividadesActuales) =>
-      actividadesActuales.filter(
-        (actividad) => actividad.id !== id
-      )
-    );
-  };
-
-  const actualizarActividad = (actividadActualizada) => {
-    setActividades((actividadesActuales) =>
-      actividadesActuales.map((actividad) =>
-        actividad.id === actividadActualizada.id
-          ? actividadActualizada
-          : actividad
-      )
-    );
-  };
-
-  const limpiarFiltros = () => {
-    setBusqueda('');
-    setCategoria('Todas');
-    setSoloFavoritos(false);
-  };
-
-  const actividadesFiltradas = actividades.filter((actividad) => {
-    const coincideBusqueda = actividad.nombre
-      .toLowerCase()
-      .includes(busqueda.toLowerCase());
-
-    const coincideCategoria =
-      categoria === 'Todas' ||
-      actividad.categoria === categoria;
-
-    const coincideFavorito =
-      !soloFavoritos || actividad.favorito;
-
-    return (
-      coincideBusqueda &&
-      coincideCategoria &&
-      coincideFavorito
-    );
+export default function Itinerario() {
+  const { trip, owner, mutate } = useTrip();
+  const root = trip ? `/trips/${trip.id}` : null;
+  const days = useTripResource(root && `${root}/days`, { list: true });
+  const activities = useTripResource(root && `${root}/activities`, {
+    list: true,
   });
-
-  const actividadesOrdenadas = [...actividadesFiltradas].sort(
-    (a, b) => {
-      const fechaA = new Date(`${a.fecha}T${a.hora}`);
-      const fechaB = new Date(`${b.fecha}T${b.hora}`);
-
-      return fechaA - fechaB;
-    }
-  );
-
-  const actividadesPorFecha = actividadesOrdenadas.reduce(
-    (grupos, actividad) => {
-      const fecha = actividad.fecha;
-
-      if (!grupos[fecha]) {
-        grupos[fecha] = [];
-      }
-
-      grupos[fecha].push(actividad);
-
-      return grupos;
+  const destinations = useTripResource(root && `${root}/destinations`);
+  const [editingDay, setEditingDay] = useState(null);
+  const [editingActivity, setEditingActivity] = useState(null);
+  const [search, setSearch] = useState('');
+  const [category, setCategory] = useState('');
+  const [onlyFavorites, setOnlyFavorites] = useState(false);
+  const action = useAction();
+  if (!trip) return <NoTrip />;
+  const dayFields = [
+    {
+      name: 'destinationId',
+      label: 'Destino del día',
+      required: true,
+      options: [
+        { value: '', label: 'Selecciona un destino' },
+        ...(destinations.data || []).map((item) => ({
+          value: item.id,
+          label: item.name,
+        })),
+      ],
     },
-    {}
+    {
+      name: 'date',
+      label: 'Fecha del día',
+      type: 'date',
+      required: true,
+      min: trip.startDate,
+      max: trip.endDate,
+    },
+    { name: 'title', label: 'Título del día' },
+  ];
+  const filtered = (activities.data || []).filter(
+    (item) =>
+      item.name.toLowerCase().includes(search.toLowerCase()) &&
+      (!category || item.category === category) &&
+      (!onlyFavorites || item.favorite),
   );
-
   return (
     <main className="itinerary-page">
-      <section className="itinerary-header">
+      <header className="itinerary-header">
         <p className="section-label">Tu planificación</p>
-
         <h2>Itinerario</h2>
-
         <p>
-          Revisa todas las actividades organizadas para tu viaje.
+          {trip.name} · {trip.startDate} — {trip.endDate}
         </p>
-      </section>
-
-      <ActivityForm onAgregarActividad={agregarActividad} />
-
+      </header>
+      {!owner && <ReadOnlyNotice />}
+      <ResourceFeedback resource={destinations} />
+      <ResourceFeedback resource={days} />
+      <ResourceFeedback resource={activities} />
+      <ActionFeedback action={action} />
+      {owner && destinations.data?.length === 0 && (
+        <p className="info-message">
+          Primero agrega un lugar desde <Link to="/destinos">Destinos</Link>{' '}
+          para organizar los días del viaje.
+        </p>
+      )}
+      {owner && Boolean(destinations.data?.length) && (
+        <EntityForm
+          key={editingDay?.id || 'new-day'}
+          title={editingDay ? 'Editar día' : 'Agregar día'}
+          fields={dayFields}
+          initial={editingDay || {}}
+          onCancel={editingDay ? () => setEditingDay(null) : undefined}
+          onSave={async (values) => {
+            if (values.date < trip.startDate || values.date > trip.endDate)
+              throw new Error(
+                'La fecha debe estar dentro del período del viaje.',
+              );
+            await mutate(
+              editingDay ? `${root}/days/${editingDay.id}` : `${root}/days`,
+              editingDay ? 'PATCH' : 'POST',
+              values,
+            );
+            setEditingDay(null);
+          }}
+        />
+      )}
+      {owner && Boolean(days.data?.length) && (
+        <ActivityForm
+          key={editingActivity?.id || 'new-activity'}
+          days={days.data}
+          activity={editingActivity}
+          onCancel={
+            editingActivity ? () => setEditingActivity(null) : undefined
+          }
+          onSave={async (values) => {
+            await mutate(
+              editingActivity
+                ? `${root}/activities/${editingActivity.id}`
+                : `${root}/activities`,
+              editingActivity ? 'PATCH' : 'POST',
+              values,
+            );
+            setEditingActivity(null);
+          }}
+        />
+      )}
       <section className="itinerary-filters">
         <div className="filters-header">
-          <div>
-            <p className="section-label">Organiza tu búsqueda</p>
-            <h2>Filtrar actividades</h2>
-          </div>
-
+          <h2>Filtrar actividades</h2>
           <button
             className="clear-filters-button"
-            onClick={limpiarFiltros}
+            onClick={() => {
+              setSearch('');
+              setCategory('');
+              setOnlyFavorites(false);
+            }}
           >
             Limpiar filtros
           </button>
         </div>
-
         <div className="filters-grid">
           <div className="filter-group">
-            <label htmlFor="buscar-actividad">
-              Buscar actividad
-            </label>
-
+            <label htmlFor="activity-search">Buscar actividad</label>
             <input
-              id="buscar-actividad"
-              type="text"
-              placeholder="Ej: museo, cena, parque..."
-              value={busqueda}
-              onChange={(evento) =>
-                setBusqueda(evento.target.value)
-              }
+              id="activity-search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
             />
           </div>
-
           <div className="filter-group">
-            <label htmlFor="categoria-filtro">
-              Categoría
-            </label>
-
+            <label htmlFor="activity-category">Categoría</label>
             <select
-              id="categoria-filtro"
-              value={categoria}
-              onChange={(evento) =>
-                setCategoria(evento.target.value)
-              }
+              id="activity-category"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
             >
-              <option value="Todas">Todas</option>
-              <option value="Turismo">Turismo</option>
-              <option value="Cultura">Cultura</option>
-              <option value="Gastronomía">
-                Gastronomía
-              </option>
-              <option value="Paseo">Paseo</option>
-              <option value="Entretenimiento">
-                Entretenimiento
-              </option>
+              <option value="">Todas</option>
+              {categories.map((item) => (
+                <option key={item}>{item}</option>
+              ))}
             </select>
           </div>
-
           <label className="favorite-filter">
             <input
               type="checkbox"
-              checked={soloFavoritos}
-              onChange={(evento) =>
-                setSoloFavoritos(evento.target.checked)
-              }
+              checked={onlyFavorites}
+              onChange={(e) => setOnlyFavorites(e.target.checked)}
             />
-
-            <span>Solo favoritas</span>
+            Solo favoritas
           </label>
         </div>
       </section>
-
-      <section className="itinerary-content">
-        <div className="itinerary-results">
-          <span>
-            {actividadesFiltradas.length}{' '}
-            {actividadesFiltradas.length === 1
-              ? 'actividad encontrada'
-              : 'actividades encontradas'}
-          </span>
-        </div>
-
-        {actividadesFiltradas.length === 0 ? (
-          <div className="itinerary-empty">
-            <h3>No encontramos actividades</h3>
-
-            <p>
-              Prueba modificando o limpiando los filtros.
-            </p>
-
-            <button
-              className="primary-button"
-              onClick={limpiarFiltros}
-            >
-              Limpiar filtros
-            </button>
-          </div>
-        ) : (
-          Object.entries(actividadesPorFecha).map(
-            ([fecha, actividadesDelDia]) => (
-              <div className="itinerary-day" key={fecha}>
-                <div className="itinerary-date">
-                  <h3>{fecha}</h3>
-
-                  <span>
-                    {actividadesDelDia.length}{' '}
-                    {actividadesDelDia.length === 1
-                      ? 'actividad'
-                      : 'actividades'}
-                  </span>
-                </div>
-
-                <div className="activities-list">
-                  {actividadesDelDia.map((actividad) => (
-                    <ActivityCard
-                      key={actividad.id}
-                      actividad={actividad}
-                      onActualizarActividad={
-                        actualizarActividad
-                      }
-                      onEliminarActividad={
-                        eliminarActividad
-                      }
-                      onAlternarFavorito={
-                        onAlternarFavorito
-                      }
-                    />
-                  ))}
-                </div>
+      <p className="itinerary-results">
+        {filtered.length} actividades encontradas
+      </p>
+      {!days.loading && !days.error && !days.data?.length && (
+        <p className="itinerary-empty">Todavía no hay días en el itinerario.</p>
+      )}
+      {days.data?.map((day) => (
+        <section
+          className="itinerary-day"
+          key={day.id}
+          aria-label={`Día ${day.date}`}
+        >
+          <div className="itinerary-date">
+            <div>
+              <h3>
+                {day.date}
+                {day.title ? ` · ${day.title}` : ''}
+              </h3>
+              <p>
+                {
+                  destinations.data?.find(
+                    (item) => item.id === day.destinationId,
+                  )?.name
+                }
+              </p>
+            </div>
+            {owner && (
+              <div className="activity-buttons">
+                <button
+                  className="edit-button"
+                  onClick={() => setEditingDay(day)}
+                >
+                  Editar día
+                </button>
+                <button
+                  className="delete-button"
+                  disabled={action.busy}
+                  onClick={() => {
+                    if (
+                      window.confirm(
+                        `¿Eliminar el día ${day.date}? Debe estar vacío.`,
+                      )
+                    )
+                      action.run(
+                        () => mutate(`${root}/days/${day.id}`, 'DELETE'),
+                        'Día eliminado.',
+                      );
+                  }}
+                >
+                  Eliminar día
+                </button>
               </div>
-            )
-          )
-        )}
-      </section>
+            )}
+          </div>
+          <div className="activities-list">
+            {filtered
+              .filter((item) => item.dayId === day.id)
+              .map((activity) => (
+                <ActivityCard
+                  key={activity.id}
+                  activity={activity}
+                  owner={owner}
+                  onEdit={setEditingActivity}
+                  onDelete={(id) =>
+                    mutate(`${root}/activities/${id}`, 'DELETE')
+                  }
+                  onFavorite={(item) =>
+                    mutate(
+                      `${root}/activities/${item.id}/favorite`,
+                      item.favorite ? 'DELETE' : 'PUT',
+                    )
+                  }
+                />
+              ))}
+          </div>
+          {!filtered.some((item) => item.dayId === day.id) && (
+            <p className="empty-state">
+              Sin actividades para este día con los filtros actuales.
+            </p>
+          )}
+        </section>
+      ))}
     </main>
   );
 }
-
-export default Itinerario;
