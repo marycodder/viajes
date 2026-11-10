@@ -1,0 +1,2724 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/v1/auth/register": {
+      "post": {
+        "operationId": "AuthController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "Registrar usuario y obtener token de una hora",
+        "tags": [
+          "Autenticación y usuarios"
+        ]
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Iniciar sesión",
+        "tags": [
+          "Autenticación y usuarios"
+        ]
+      }
+    },
+    "/api/v1/users/me": {
+      "get": {
+        "operationId": "AuthController_profile",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Consultar mi perfil",
+        "tags": [
+          "Autenticación y usuarios"
+        ]
+      },
+      "patch": {
+        "operationId": "AuthController_updateProfile",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProfileDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Actualizar mi nombre",
+        "tags": [
+          "Autenticación y usuarios"
+        ]
+      }
+    },
+    "/api/v1/trips": {
+      "get": {
+        "operationId": "TripsController_list",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "offset",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "default": 0,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Listar mis viajes propios o compartidos",
+        "tags": [
+          "Viajes y viajeros"
+        ]
+      },
+      "post": {
+        "operationId": "TripsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTripDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Crear un viaje en CLP",
+        "tags": [
+          "Viajes y viajeros"
+        ]
+      }
+    },
+    "/api/v1/trips/{tripId}": {
+      "get": {
+        "operationId": "TripsController_get",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Consultar un viaje al que pertenezco",
+        "tags": [
+          "Viajes y viajeros"
+        ]
+      },
+      "patch": {
+        "operationId": "TripsController_update",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTripDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Modificar un viaje propio",
+        "tags": [
+          "Viajes y viajeros"
+        ]
+      },
+      "delete": {
+        "operationId": "TripsController_remove",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Eliminar un viaje propio y sus registros SQL",
+        "tags": [
+          "Viajes y viajeros"
+        ]
+      }
+    },
+    "/api/v1/trips/{tripId}/summary": {
+      "get": {
+        "operationId": "TripsController_summary",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Consultar indicadores y presupuesto real, sin confundirlo con costos estimados",
+        "tags": [
+          "Viajes y viajeros"
+        ]
+      }
+    },
+    "/api/v1/trips/{tripId}/travelers": {
+      "get": {
+        "operationId": "TripsController_travelers",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Listar viajeros y propietario",
+        "tags": [
+          "Viajes y viajeros"
+        ]
+      },
+      "post": {
+        "operationId": "TripsController_addTraveler",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddTravelerDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Agregar un usuario registrado como viajero con acceso de lectura",
+        "tags": [
+          "Viajes y viajeros"
+        ]
+      }
+    },
+    "/api/v1/trips/{tripId}/travelers/{id}": {
+      "delete": {
+        "operationId": "TripsController_removeTraveler",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Quitar un viajero; el propietario permanece",
+        "tags": [
+          "Viajes y viajeros"
+        ]
+      }
+    },
+    "/api/v1/trips/{tripId}/destinations": {
+      "get": {
+        "operationId": "TripsController_destinations",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Listar destinos del viaje",
+        "tags": [
+          "Viajes y viajeros"
+        ]
+      },
+      "post": {
+        "operationId": "TripsController_addDestination",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddDestinationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Asociar un destino existente al viaje",
+        "tags": [
+          "Viajes y viajeros"
+        ]
+      }
+    },
+    "/api/v1/trips/{tripId}/destinations/{id}": {
+      "delete": {
+        "operationId": "TripsController_removeDestination",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Desasociar un destino que no esté en uso",
+        "tags": [
+          "Viajes y viajeros"
+        ]
+      }
+    },
+    "/api/v1/destinations": {
+      "get": {
+        "operationId": "DestinationsController_list",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "offset",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "default": 0,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "description": "Buscar por nombre o región",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "country",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Buscar destinos en el catálogo compartido",
+        "tags": [
+          "Catálogo de destinos"
+        ]
+      },
+      "post": {
+        "operationId": "DestinationsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDestinationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Crear destino con coordenadas válidas",
+        "tags": [
+          "Catálogo de destinos"
+        ]
+      }
+    },
+    "/api/v1/destinations/{id}": {
+      "get": {
+        "operationId": "DestinationsController_get",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Consultar un destino",
+        "tags": [
+          "Catálogo de destinos"
+        ]
+      },
+      "patch": {
+        "operationId": "DestinationsController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDestinationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Editar un destino creado por mí",
+        "tags": [
+          "Catálogo de destinos"
+        ]
+      },
+      "delete": {
+        "operationId": "DestinationsController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Eliminar un destino propio que no esté asociado a viajes",
+        "tags": [
+          "Catálogo de destinos"
+        ]
+      }
+    },
+    "/api/v1/trips/{tripId}/days": {
+      "get": {
+        "operationId": "PlanningController_days",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "offset",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "default": 0,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Consultar itinerario por días",
+        "tags": [
+          "Itinerarios, actividades, favoritos, gastos y reservas"
+        ]
+      },
+      "post": {
+        "operationId": "PlanningController_createDay",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDayDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Crear un día dentro del período del viaje",
+        "tags": [
+          "Itinerarios, actividades, favoritos, gastos y reservas"
+        ]
+      }
+    },
+    "/api/v1/trips/{tripId}/days/{id}": {
+      "patch": {
+        "operationId": "PlanningController_updateDay",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDayDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Modificar fecha, destino o título de un día",
+        "tags": [
+          "Itinerarios, actividades, favoritos, gastos y reservas"
+        ]
+      },
+      "delete": {
+        "operationId": "PlanningController_removeDay",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Eliminar un día vacío",
+        "tags": [
+          "Itinerarios, actividades, favoritos, gastos y reservas"
+        ]
+      }
+    },
+    "/api/v1/trips/{tripId}/activities": {
+      "get": {
+        "operationId": "PlanningController_activities",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "offset",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "default": 0,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "dayId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "category",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "planned",
+                "completed",
+                "cancelled"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Listar actividades por fecha/hora con filtros y favoritos personales",
+        "tags": [
+          "Itinerarios, actividades, favoritos, gastos y reservas"
+        ]
+      },
+      "post": {
+        "operationId": "PlanningController_createActivity",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateActivityDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Crear una actividad con costo estimado",
+        "tags": [
+          "Itinerarios, actividades, favoritos, gastos y reservas"
+        ]
+      }
+    },
+    "/api/v1/trips/{tripId}/activities/{id}": {
+      "get": {
+        "operationId": "PlanningController_activity",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Consultar una actividad del viaje",
+        "tags": [
+          "Itinerarios, actividades, favoritos, gastos y reservas"
+        ]
+      },
+      "patch": {
+        "operationId": "PlanningController_updateActivity",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateActivityDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Modificar o marcar actividad como completada/cancelada",
+        "tags": [
+          "Itinerarios, actividades, favoritos, gastos y reservas"
+        ]
+      },
+      "delete": {
+        "operationId": "PlanningController_removeActivity",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Eliminar una actividad sin gastos ni reservas vinculadas",
+        "tags": [
+          "Itinerarios, actividades, favoritos, gastos y reservas"
+        ]
+      }
+    },
+    "/api/v1/trips/{tripId}/favorites": {
+      "get": {
+        "operationId": "PlanningController_favorites",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "offset",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "default": 0,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "dayId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "category",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "planned",
+                "completed",
+                "cancelled"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Listar mis actividades favoritas de este viaje",
+        "tags": [
+          "Itinerarios, actividades, favoritos, gastos y reservas"
+        ]
+      }
+    },
+    "/api/v1/trips/{tripId}/activities/{id}/favorite": {
+      "put": {
+        "operationId": "PlanningController_favorite",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Marcar favorito personal de forma idempotente",
+        "tags": [
+          "Itinerarios, actividades, favoritos, gastos y reservas"
+        ]
+      },
+      "delete": {
+        "operationId": "PlanningController_unfavorite",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Desmarcar favorito personal",
+        "tags": [
+          "Itinerarios, actividades, favoritos, gastos y reservas"
+        ]
+      }
+    },
+    "/api/v1/trips/{tripId}/expenses": {
+      "get": {
+        "operationId": "PlanningController_expenses",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "offset",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "default": 0,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Listar gastos efectivamente pagados",
+        "tags": [
+          "Itinerarios, actividades, favoritos, gastos y reservas"
+        ]
+      },
+      "post": {
+        "operationId": "PlanningController_createExpense",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateExpenseDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Registrar gasto real, incluso un pago anterior al viaje",
+        "tags": [
+          "Itinerarios, actividades, favoritos, gastos y reservas"
+        ]
+      }
+    },
+    "/api/v1/trips/{tripId}/expenses/{id}": {
+      "patch": {
+        "operationId": "PlanningController_updateExpense",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateExpenseDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Modificar un gasto real",
+        "tags": [
+          "Itinerarios, actividades, favoritos, gastos y reservas"
+        ]
+      },
+      "delete": {
+        "operationId": "PlanningController_removeExpense",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Eliminar un gasto",
+        "tags": [
+          "Itinerarios, actividades, favoritos, gastos y reservas"
+        ]
+      }
+    },
+    "/api/v1/trips/{tripId}/reservations": {
+      "get": {
+        "operationId": "PlanningController_reservations",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "offset",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "default": 0,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Listar reservas simuladas",
+        "tags": [
+          "Itinerarios, actividades, favoritos, gastos y reservas"
+        ]
+      },
+      "post": {
+        "operationId": "PlanningController_createReservation",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateReservationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Crear reserva simulada dentro del viaje; no procesa pagos reales",
+        "tags": [
+          "Itinerarios, actividades, favoritos, gastos y reservas"
+        ]
+      }
+    },
+    "/api/v1/trips/{tripId}/reservations/{id}": {
+      "patch": {
+        "operationId": "PlanningController_updateReservation",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateReservationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Modificar, confirmar o cancelar una reserva",
+        "tags": [
+          "Itinerarios, actividades, favoritos, gastos y reservas"
+        ]
+      },
+      "delete": {
+        "operationId": "PlanningController_removeReservation",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Eliminar una reserva simulada",
+        "tags": [
+          "Itinerarios, actividades, favoritos, gastos y reservas"
+        ]
+      }
+    },
+    "/api/v1/trips/{tripId}/notes": {
+      "get": {
+        "operationId": "DocumentsController_notes",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "offset",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "default": 0,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Consultar notas persistidas en MongoDB",
+        "tags": [
+          "Notas, recomendaciones e historial (MongoDB)"
+        ]
+      },
+      "post": {
+        "operationId": "DocumentsController_createNote",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateNoteDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Guardar nota con contenido y etiquetas en MongoDB",
+        "tags": [
+          "Notas, recomendaciones e historial (MongoDB)"
+        ]
+      }
+    },
+    "/api/v1/trips/{tripId}/notes/{id}": {
+      "patch": {
+        "operationId": "DocumentsController_updateNote",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateNoteDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Editar una nota del viaje",
+        "tags": [
+          "Notas, recomendaciones e historial (MongoDB)"
+        ]
+      },
+      "delete": {
+        "operationId": "DocumentsController_removeNote",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Eliminar una nota",
+        "tags": [
+          "Notas, recomendaciones e historial (MongoDB)"
+        ]
+      }
+    },
+    "/api/v1/trips/{tripId}/recommendations": {
+      "get": {
+        "operationId": "DocumentsController_recommendations",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "offset",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "default": 0,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Consultar recomendaciones guardadas; no se generan con IA",
+        "tags": [
+          "Notas, recomendaciones e historial (MongoDB)"
+        ]
+      },
+      "post": {
+        "operationId": "DocumentsController_createRecommendation",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRecommendationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Guardar recomendación manual con contenido, etiquetas y enlace opcional",
+        "tags": [
+          "Notas, recomendaciones e historial (MongoDB)"
+        ]
+      }
+    },
+    "/api/v1/trips/{tripId}/recommendations/{id}": {
+      "patch": {
+        "operationId": "DocumentsController_updateRecommendation",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRecommendationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Editar una recomendación",
+        "tags": [
+          "Notas, recomendaciones e historial (MongoDB)"
+        ]
+      },
+      "delete": {
+        "operationId": "DocumentsController_removeRecommendation",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Eliminar una recomendación",
+        "tags": [
+          "Notas, recomendaciones e historial (MongoDB)"
+        ]
+      }
+    },
+    "/api/v1/trips/{tripId}/events": {
+      "get": {
+        "operationId": "DocumentsController_events",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          },
+          {
+            "name": "offset",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "default": 0,
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Consultar historial; los eventos SQL se entregan de forma eventual e idempotente",
+        "tags": [
+          "Notas, recomendaciones e historial (MongoDB)"
+        ]
+      }
+    },
+    "/api/v1/trips/{tripId}/weather": {
+      "get": {
+        "operationId": "WeatherController_forecast",
+        "parameters": [
+          {
+            "name": "tripId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "destinationId",
+            "required": true,
+            "in": "query",
+            "description": "Destino previamente asociado al viaje",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Consultar Open-Meteo desde el backend, con caché, timeout y horizonte válido",
+        "tags": [
+          "Clima / API pública"
+        ]
+      }
+    },
+    "/api/v1/health": {
+      "get": {
+        "operationId": "HealthController_health",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Verificar PostgreSQL y MongoDB; responde 503 si falla alguno",
+        "tags": [
+          "Estado de servicios"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "TripPlan API",
+    "description": "Hito 3: PostgreSQL para operaciones, MongoDB para documentos e historial. Inicia sesión y usa Authorize con accessToken. Listas: limit=50 (máximo 100), offset=0. Errores: {statusCode,message,path,timestamp}. 400 validación, 401 sesión, 403 permisos, 404 inexistente, 409 conflicto, 429 límite, 503 servicio externo. El propietario modifica; viajeros consultan y administran favoritos personales. Importes enteros CLP.",
+    "version": "1.0.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "RegisterDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Viajero de prueba"
+          },
+          "email": {
+            "type": "string",
+            "example": "viajero@example.com"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 72,
+            "example": "ViajesDemo2026",
+            "writeOnly": true
+          }
+        },
+        "required": [
+          "name",
+          "email",
+          "password"
+        ]
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "viajero@example.com"
+          },
+          "password": {
+            "type": "string",
+            "writeOnly": true
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "UpdateProfileDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Viajero de prueba"
+          }
+        }
+      },
+      "Object": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateTripDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Semana en Santiago"
+          },
+          "description": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string",
+            "example": "2026-12-10"
+          },
+          "endDate": {
+            "type": "string",
+            "example": "2026-12-17"
+          },
+          "budget": {
+            "type": "number",
+            "example": 350000,
+            "description": "Pesos chilenos enteros; moneda CLP"
+          }
+        },
+        "required": [
+          "name",
+          "startDate",
+          "endDate"
+        ]
+      },
+      "UpdateTripDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Semana en Santiago"
+          },
+          "description": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string",
+            "example": "2026-12-10"
+          },
+          "endDate": {
+            "type": "string",
+            "example": "2026-12-17"
+          },
+          "budget": {
+            "type": "number",
+            "example": 350000,
+            "description": "Pesos chilenos enteros; moneda CLP"
+          }
+        }
+      },
+      "AddTravelerDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "Correo de un usuario previamente registrado",
+            "example": "acompanante@example.com"
+          }
+        },
+        "required": [
+          "email"
+        ]
+      },
+      "AddDestinationDto": {
+        "type": "object",
+        "properties": {
+          "destinationId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "destinationId"
+        ]
+      },
+      "CreateDestinationDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Santiago"
+          },
+          "country": {
+            "type": "string",
+            "example": "Chile"
+          },
+          "region": {
+            "type": "string",
+            "example": "Metropolitana"
+          },
+          "description": {
+            "type": "string"
+          },
+          "latitude": {
+            "type": "number",
+            "example": -33.4489
+          },
+          "longitude": {
+            "type": "number",
+            "example": -70.6693
+          }
+        },
+        "required": [
+          "name",
+          "country",
+          "latitude",
+          "longitude"
+        ]
+      },
+      "UpdateDestinationDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Santiago"
+          },
+          "country": {
+            "type": "string",
+            "example": "Chile"
+          },
+          "region": {
+            "type": "string",
+            "example": "Metropolitana"
+          },
+          "description": {
+            "type": "string"
+          },
+          "latitude": {
+            "type": "number",
+            "example": -33.4489
+          },
+          "longitude": {
+            "type": "number",
+            "example": -70.6693
+          }
+        }
+      },
+      "CreateDayDto": {
+        "type": "object",
+        "properties": {
+          "destinationId": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "example": "2026-12-11"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "destinationId",
+          "date"
+        ]
+      },
+      "UpdateDayDto": {
+        "type": "object",
+        "properties": {
+          "destinationId": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "example": "2026-12-11"
+          },
+          "title": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateActivityDto": {
+        "type": "object",
+        "properties": {
+          "dayId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "example": "Cerro San Cristóbal"
+          },
+          "category": {
+            "type": "string",
+            "example": "Turismo"
+          },
+          "time": {
+            "type": "string",
+            "example": "09:00",
+            "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+          },
+          "estimatedCost": {
+            "type": "number",
+            "example": 5000
+          },
+          "description": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "planned",
+              "completed",
+              "cancelled"
+            ]
+          }
+        },
+        "required": [
+          "dayId",
+          "name",
+          "category",
+          "time"
+        ]
+      },
+      "UpdateActivityDto": {
+        "type": "object",
+        "properties": {
+          "dayId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "example": "Cerro San Cristóbal"
+          },
+          "category": {
+            "type": "string",
+            "example": "Turismo"
+          },
+          "time": {
+            "type": "string",
+            "example": "09:00",
+            "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+          },
+          "estimatedCost": {
+            "type": "number",
+            "example": 5000
+          },
+          "description": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "planned",
+              "completed",
+              "cancelled"
+            ]
+          }
+        }
+      },
+      "CreateExpenseDto": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "example": "Entrada al museo"
+          },
+          "category": {
+            "type": "string",
+            "example": "Cultura"
+          },
+          "date": {
+            "type": "string",
+            "example": "2026-12-11",
+            "description": "Fecha del pago; puede ser anterior al viaje"
+          },
+          "amount": {
+            "type": "number",
+            "example": 8000,
+            "minimum": 1
+          },
+          "activityId": {
+            "type": "object",
+            "nullable": true
+          },
+          "paidBy": {
+            "type": "string",
+            "description": "Viajero que pagó. Por defecto, el propietario que registra el gasto."
+          }
+        },
+        "required": [
+          "description",
+          "category",
+          "date",
+          "amount"
+        ]
+      },
+      "UpdateExpenseDto": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "example": "Entrada al museo"
+          },
+          "category": {
+            "type": "string",
+            "example": "Cultura"
+          },
+          "date": {
+            "type": "string",
+            "example": "2026-12-11",
+            "description": "Fecha del pago; puede ser anterior al viaje"
+          },
+          "amount": {
+            "type": "number",
+            "example": 8000,
+            "minimum": 1
+          },
+          "activityId": {
+            "type": "object",
+            "nullable": true
+          },
+          "paidBy": {
+            "type": "string",
+            "description": "Viajero que pagó. Por defecto, el propietario que registra el gasto."
+          }
+        }
+      },
+      "CreateReservationDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "accommodation",
+              "transport",
+              "activity",
+              "other"
+            ]
+          },
+          "provider": {
+            "type": "string",
+            "example": "Hotel de prueba"
+          },
+          "reference": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string",
+            "example": "2026-12-10"
+          },
+          "endDate": {
+            "type": "string",
+            "example": "2026-12-17"
+          },
+          "estimatedCost": {
+            "type": "number"
+          },
+          "activityId": {
+            "type": "object",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "confirmed",
+              "cancelled"
+            ]
+          }
+        },
+        "required": [
+          "type",
+          "provider",
+          "startDate",
+          "endDate"
+        ]
+      },
+      "UpdateReservationDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "accommodation",
+              "transport",
+              "activity",
+              "other"
+            ]
+          },
+          "provider": {
+            "type": "string",
+            "example": "Hotel de prueba"
+          },
+          "reference": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string",
+            "example": "2026-12-10"
+          },
+          "endDate": {
+            "type": "string",
+            "example": "2026-12-17"
+          },
+          "estimatedCost": {
+            "type": "number"
+          },
+          "activityId": {
+            "type": "object",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "confirmed",
+              "cancelled"
+            ]
+          }
+        }
+      },
+      "CreateNoteDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Qué llevar"
+          },
+          "content": {
+            "type": "string",
+            "example": "Llevar agua y protector solar para el cerro."
+          },
+          "tags": {
+            "example": [
+              "equipaje",
+              "turismo"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "title",
+          "content"
+        ]
+      },
+      "UpdateNoteDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Qué llevar"
+          },
+          "content": {
+            "type": "string",
+            "example": "Llevar agua y protector solar para el cerro."
+          },
+          "tags": {
+            "example": [
+              "equipaje",
+              "turismo"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "CreateRecommendationDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Qué llevar"
+          },
+          "content": {
+            "type": "string",
+            "example": "Llevar agua y protector solar para el cerro."
+          },
+          "tags": {
+            "example": [
+              "equipaje",
+              "turismo"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "url": {
+            "type": "string",
+            "example": "https://www.chile.travel/"
+          },
+          "category": {
+            "type": "string",
+            "example": "Gastronomía"
+          }
+        },
+        "required": [
+          "title",
+          "content"
+        ]
+      },
+      "UpdateRecommendationDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Qué llevar"
+          },
+          "content": {
+            "type": "string",
+            "example": "Llevar agua y protector solar para el cerro."
+          },
+          "tags": {
+            "example": [
+              "equipaje",
+              "turismo"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "url": {
+            "type": "string",
+            "example": "https://www.chile.travel/"
+          },
+          "category": {
+            "type": "string",
+            "example": "Gastronomía"
+          }
+        }
+      }
+    }
+  }
+}
