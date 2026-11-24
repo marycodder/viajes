@@ -6,7 +6,10 @@ import {
   View,
   Button,
   ActivityIndicator,
+  Linking,
+  Alert,
 } from 'react-native';
+
 import estilos from '../styles/estilos';
 import { formatoDinero } from '../components/TarjetaViaje';
 
@@ -19,6 +22,41 @@ export default function DetalleViaje({
   cargando,
   error,
 }) {
+
+  // FUNCIONALIDAD ADICIONAL:
+  // ABRIR LA RUTA AL DESTINO EN GOOGLE MAPS
+  async function comoLlegar(destino) {
+    const ubicacion = [
+      destino.name,
+      destino.region,
+      destino.country,
+    ]
+      .filter(Boolean)
+      .join(', ');
+
+    if (!ubicacion) {
+      Alert.alert(
+        'Destino no disponible',
+        'Este destino no tiene una ubicación registrada.'
+      );
+      return;
+    }
+
+    const url =
+      'https://www.google.com/maps/dir/?api=1' +
+      '&destination=' + encodeURIComponent(ubicacion) +
+      '&travelmode=driving';
+
+    try {
+      await Linking.openURL(url);
+    } catch (e) {
+      Alert.alert(
+        'Error de navegación',
+        'No fue posible abrir Google Maps.'
+      );
+    }
+  }
+
   return (
     <ScrollView
       style={estilos.pantalla}
@@ -52,7 +90,9 @@ export default function DetalleViaje({
       )}
 
       {error ? (
-        <Text style={estilos.error}>{error}</Text>
+        <Text style={estilos.error}>
+          {error}
+        </Text>
       ) : null}
 
       {!cargando && destinos.length === 0 && (
@@ -75,6 +115,15 @@ export default function DetalleViaje({
               .filter(Boolean)
               .join(', ')}
           </Text>
+
+          {/* FUNCIONALIDAD ADICIONAL */}
+          <View style={estilos.espacio}>
+            <Button
+              title="Cómo llegar al destino"
+              onPress={() => comoLlegar(destino)}
+            />
+          </View>
+
         </View>
       ))}
 
